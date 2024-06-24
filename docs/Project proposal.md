@@ -68,18 +68,24 @@ The application will follow an N-tier architecture with a clear separation of co
 
 ## RESTful Routing
 
-| Route               | HTTP Method | Description                        | Headers            | Payload/Response          |
-| ------------------- | ----------- | ---------------------------------- | ------------------ | ------------------------- |
-| /api/auth/register  | POST        | Register a new user                | Content-Type: JSON | Payload: User Data        |
-| /api/auth/login     | POST        | User login                         | Content-Type: JSON | Payload: Login Data       |
-| /api/resources      | GET         | Get all resources                  | Authorization: JWT | Response: Resource List   |
-| /api/resources      | POST        | Add a new resource                 | Authorization: JWT | Payload: Resource Data    |
-| /api/resources/:id  | PUT         | Update resource information        | Authorization: JWT | Payload: Updated Data     |
-| /api/resources/:id  | DELETE      | Delete a resource                  | Authorization: JWT | Response: Success Message |
-| /api/volunteers     | GET         | Get all volunteer opportunities    | Authorization: JWT | Response: Opportunities   |
-| /api/volunteers     | POST        | Create a new volunteer opportunity | Authorization: JWT | Payload: Opportunity Data |
-| /api/volunteers/:id | PUT         | Update volunteer opportunity       | Authorization: JWT | Payload: Updated Data     |
-| /api/volunteers/:id | DELETE      | Delete a volunteer opportunity     | Authorization: JWT | Response: Success Message |
+| Route                | HTTP Method | Description                           | Headers                                     | Payload                       | Response                 |
+| -------------------- | ----------- | ------------------------------------- | ------------------------------------------- | ----------------------------- | ------------------------ |
+| /user/register       | POST        | Register a new user                   | Content-Type: JSON                          | User Data                     | New user                 |
+| /user/login          | POST        | User login                            | Content-Type: JSON                          | Login Data                    | JWT                      |
+| /user/:email         | GET         | Get user by email                     | Authorization: JWT                          | Email                         | Found User               |
+| /user/changePassword | PUT         | Change password                       | Authorization: JWT                          | Old password, new password    | Success message          |
+| /user/track          | POST        | Track natural disaster                | Authorization: JWT                          | Disaster ID                   |                          |
+| /user/role           | POST        | Add role to profile                   | Authorization: JWT                          | User ID, role                 |                          |
+| /user/role           | DELETE      | Remove role from profile              | Authorization: JWT                          | Role, role                    | Success message          |
+| /disasters           | GET         | Get all active natural disasters      | Authorization: JWT                          |                               | Disaster List            |
+| /disasters/count     | GET         | Get count of active natural disasters |                                             |                               | Active disaster count    |
+| /disasters           | POST        | Add a new natural disaster            | Content-Type: JSON <br/> Authorization: JWT | Disaster Data                 | New natural disaster     |
+| /disasters           | PUT         | Update a natural disaster's details   | Content-Type: JSON <br/> Authorization: JWT | Disaster Data                 | Updated disaster         |
+| /disasters           | DELETE      | Delete a natural disaster             | Authorization: JWT                          | Disaster ID                   | Success message          |
+| /resources           | GET         | Get all resource requests             | Authorization: JWT                          |                               |                          |
+| /resources           | POST        | Create a new resource request         | Content-Type: JSON <br/> Authorization: JWT | Resource request Data         | New Resource request     |
+| /resources           | PUT         | Update a resource request             | Content-Type: JSON <br/> Authorization: JWT | Updated resource request Data | Updated Resource request |
+| /resources           | DELETE      | Delete a resource                     | Authorization: JWT                          | Resource request ID           | Success Message          |
 
 ## Data Models
 

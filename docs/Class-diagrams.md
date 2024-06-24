@@ -60,8 +60,10 @@ classDiagram
         Food
         Shelter
         Clothing
+        Transportation
         Hygiene
         Tools
+        Electricity
         Volunteers
         Other
     }
@@ -70,7 +72,7 @@ classDiagram
         Low
         Medium
         High
-        Immediate
+        Critical
     }
 
     class E_Roles  {
