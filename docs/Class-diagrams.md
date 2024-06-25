@@ -40,6 +40,7 @@ classDiagram
         +String location
         +Number estimationPeopleAffected
         +DisasterStatus status
+        +User createdBy
         +Date createdAt
         +Date updatedAt
         +ResourceRequest[] resourceRequests

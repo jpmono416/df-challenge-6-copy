@@ -38,7 +38,11 @@ export default class UserService {
      * @returns {Promise<Object>} The user object if found, otherwise null.
      */
     static getUserByEmail = async (email) => {
-        return await User.findOne({ email: email });
+        try {
+            return await User.findOne({ email: email });
+        } catch (error) {
+            throw new Error("Invalid user: " + error.message);
+        }
     };
 
     /**
@@ -67,6 +71,7 @@ export default class UserService {
         }
     };
 
+    // Roles
     static addRole = async (email, role) => {
         try {
             const user = await UserService.getUserByEmail(email);
@@ -83,5 +88,19 @@ export default class UserService {
 
     static getRoles = async () => {
         return User.schema.path("roles").enumValues;
+    };
+
+    static removeRole = async (email, role) => {
+        try {
+            const user = await UserService.getUserByEmail(email);
+            if (!user) return;
+
+            user.roles = user.roles.filter((r) => r !== role);
+            await user.save();
+            return user;
+        } catch (error) {
+            console.error("Removing role failed:", error);
+            throw new Error("Removing role failed: " + error.message);
+        }
     };
 }

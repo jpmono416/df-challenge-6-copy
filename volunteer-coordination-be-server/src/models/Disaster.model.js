@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import DisasterStatuses from "../enums/DisasterStatuses.js";
 
 const disasterSchema = new Schema({
     description: {
@@ -16,7 +17,12 @@ const disasterSchema = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ["Active", "Completed", "Cancelled"],
+        enum: Object.values(DisasterStatuses),
+    },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
     },
     createdAt: {
         type: Date,

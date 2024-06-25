@@ -19,7 +19,7 @@ describe("User Controller", () => {
     });
 
     describe("createUser", () => {
-        it("should create a user", async () => {
+        it("should return 201 after creating a user", async () => {
             const newUser = {
                 _id: "1",
                 email: "test",
@@ -75,6 +75,14 @@ describe("User Controller", () => {
 
             expect(res.status.calledWith(404)).to.be.true;
             getUserStub.restore();
+        });
+
+        // TODO come back to this after testing service and knowing what it returns
+        it.skip("should return 500 if req has invalid params", async () => {
+            req.params = { email: null, something: "else" };
+            await UserController.getUserByEmail(req, res);
+
+            expect(res.status.calledWith(500)).to.be.true;
         });
     });
 
