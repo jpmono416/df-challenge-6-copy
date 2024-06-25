@@ -32,3 +32,5 @@ const testDisasters = {
         },
     ],
 };
+
+export default testDisasters;
