@@ -30,6 +30,7 @@
         "chai": "^5.1.1",
         "chai-as-promised": "^8.0.0",
         "mocha": "^10.4.0",
+        "node-mocks-http": "^1.15.0",
         "sinon": "^18.0.0",
         "supertest": "^7.0.0"
     }

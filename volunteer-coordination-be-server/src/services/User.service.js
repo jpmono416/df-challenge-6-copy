@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 import Config from "../config/Config.js";
 import User from "../models/User.model.js";
+import Roles from "../enums/Roles.js";
 
 /**
  * UserService class to handle user-related operations.
@@ -18,13 +19,20 @@ export default class UserService {
             // Load configuration to ensure environment variables are available
             Config.load();
             const { JWT_SECRET } = process.env;
+            
+            //? The frontend sends a boolean value for wantsToVolunteer, which is converted to a role. This is to hide the role from the user.
+            UserService.processRequestRoles(newUser);
+            
             const user = new User(newUser);
             await user.save();
 
             // Generate a JWT token for the new user
-            const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+            const token = jwt.sign({ userId: user._id, roles: user.roles }, JWT_SECRET, {
                 expiresIn: "24h",
             });
+
+            // Remove the password before returning
+            user.password = undefined;
 
             return { user, token };
         } catch (error) {
@@ -101,6 +109,15 @@ export default class UserService {
         } catch (error) {
             console.error("Removing role failed:", error);
             throw new Error("Removing role failed: " + error.message);
+        }
+    };
+
+    static processRequestRoles = async (newUser) => {
+        newUser.roles = [Roles.USER];
+        
+        if (newUser.wantsToVolunteer === true) {
+            newUser.roles.push(Roles.VOLUNTEER);
+            newUser.wantsToVolunteer = undefined; // Remove the field from the user object (not in model)
         }
     };
 }

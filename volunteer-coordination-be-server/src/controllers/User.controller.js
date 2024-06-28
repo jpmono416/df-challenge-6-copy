@@ -7,6 +7,7 @@ export default class UserController {
             if (!req.body) return res.status(400).json({ error: "Invalid user" });
 
             const { user, token } = await UserService.createUser(req.body);
+            console.log("Controller: User: ", user, "Token: ", token); // TODO delete
 
             res.status(201).json({ user, token });
         } catch (error) {

@@ -1,31 +1,48 @@
-import * as expressValidator from "express-validator";
+import UserService from "../services/User.service.js";
 
 export default class UserValidator {
-    static validate = () => {
-        try {
-            return [
-                expressValidator.body("_id").optional().isMongoId(),
-                expressValidator
-                    .body("email")
-                    .isString()
-                    .notEmpty()
-                    .matches(
-                        /^(?:(?:[a-zA-Z0-9_'^&/+-]|(?:\.(?!\.))){1,64}(?:(?:(?:\.(?!\.))[a-zA-Z0-9_'^&/+-]){1,64})*)@(?:(?:[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,})|(?:"(?:[^\\"\r\n]|(?:\\[\s\S]))*"))$/
-                    ),
-                expressValidator.body("password").isString().notEmpty(),
-                expressValidator.body("favouriteLocations").optional().isArray(),
-                UserValidator.handleValidationErrors,
-            ];
-        } catch (error) {
-            console.error(error);
-            return [];
+    static validateUserRegistration = async (req, res, next) => {
+        const { email, password, name } = req.body;
+
+        // Validate name
+        if (!name || typeof name !== "string" || !name.trim()) {
+            return res.status(400).json({ message: "Name is required" });
         }
-    };
+        const nameRegex = /^[a-zA-Z\s]+$/;
+        if (!nameRegex.test(name)) {
+            return res.status(400).json({ message: "Invalid name format" });
+        }
 
-    static handleValidationErrors = (req, res, next) => {
-        const errors = expressValidator.validationResult(req);
-        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+        // Validate email
+        if (!email || typeof email !== "string" || !email.trim()) {
+            return res.status(400).json({ message: "Email is required" });
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if ( !emailRegex.test(email)) {
+            return res.status(400).json({ message: "Invalid email format" });
+        }
 
+        // Validate password
+        if (!password || typeof password !== "string" || !password.trim()) {
+            return res.status(400).json({ message: "Password is required" });
+        }
+
+        if ( password.length < 8) {
+            return res.status(400).json({ message: "Invalid password" });
+        }
+
+        // Check if email already exists in the database
+        try {
+            const existingUser = await UserService.getUserByEmail(email);
+            if (existingUser) {
+                return res.status(400).json({ message: "Email is already in use" });
+            }
+        } catch (error) {
+            console.error("Internal server error:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+
+        // If all validations pass
         next();
     };
 }
