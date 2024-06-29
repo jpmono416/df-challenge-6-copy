@@ -1,5 +1,6 @@
 import express from "express";
 import UserRoutes from "../routes/User.routes.js";
+import DisasterRoutes from "../routes/Disaster.routes.js";
 import cors from "cors";
 
 export default class Server {
@@ -9,6 +10,7 @@ export default class Server {
     #clientUrl;
     #server;
     #userRouter;
+    #disasterRouter;
 
     constructor(port, host, clientUrl) {
         this.#app = express();
@@ -17,6 +19,7 @@ export default class Server {
         this.#clientUrl = clientUrl;
         this.#server = null;
         this.#userRouter = new UserRoutes();
+        this.#disasterRouter = new DisasterRoutes();
     }
 
     getApp = () => {
@@ -39,6 +42,7 @@ export default class Server {
 
         // Routers
         this.#app.use(this.#userRouter.getRouteStartPoint(), this.#userRouter.getRouter());
+        this.#app.use(this.#disasterRouter.getRouteStartPoint(), this.#disasterRouter.getRouter());
     };
 
     close = () => {

@@ -80,6 +80,7 @@ const LoginCard = () => {
                 {validationMessage && <Alert variant="danger">{validationMessage}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     {isRegister && (
+                        // This is not included in the RegisterExtraFields because it looks simple enough here blending with the other components
                         <Form.Group controlId="formName">
                             <Form.Label>Name</Form.Label>
                             <Form.Control
