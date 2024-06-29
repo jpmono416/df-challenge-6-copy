@@ -78,11 +78,14 @@ describe("User Controller", () => {
         });
 
         // TODO come back to this after testing service and knowing what it returns
-        it.skip("should return 500 if req has invalid params", async () => {
+        it("should return 500 if req has invalid params", async () => {
             req.params = { email: null, something: "else" };
+            const getUserStub = sinon.stub(UserService, "getUserByEmail").rejects();
+            
             await UserController.getUserByEmail(req, res);
 
             expect(res.status.calledWith(500)).to.be.true;
+            getUserStub.restore();
         });
     });
 
@@ -120,8 +123,7 @@ describe("User Controller", () => {
         });
     });
 
-    // TODO Finish these tests
-    describe.skip("Change password", () => {
+    describe("Change password", () => {
         beforeEach(() => {
             req.body = { email: "test", password: "test", newPassword: "new" };
         });
@@ -151,5 +153,4 @@ describe("User Controller", () => {
             expect(res.status.calledWith(400)).to.be.true;
         });
     });
-
 });

@@ -120,4 +120,24 @@ export default class UserService {
             newUser.wantsToVolunteer = undefined; // Remove the field from the user object (not in model)
         }
     };
+
+    /**
+     * Changes the password for a user.
+     * @param {string} email - The email of the user to change the password for.
+     * @param {string} newPassword - The new password to set for the user.
+     * @returns {Promise<Object|undefined>} The updated user if successful, otherwise undefined.
+     */
+    static changePassword = async (email, newPassword) => {
+        try {
+            const user = await UserService.getUserByEmail(email);
+            if (!user) return;
+
+            user.password = newPassword;
+            await user.save();
+            return user;
+        } catch (error) {
+            console.error("Changing password failed:", error);
+            throw new Error("Changing password failed: " + error.message);
+        }
+    };
 }

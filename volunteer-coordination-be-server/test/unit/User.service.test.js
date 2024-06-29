@@ -50,8 +50,7 @@ describe("User Service", () => {
             });
         });
 
-        // TODO check later
-        describe.skip("Change password", () => {
+        describe("Change password", () => {
             it("should change password", async () => {
                 const userMock = {
                     ...testUsers[0],
@@ -61,7 +60,7 @@ describe("User Service", () => {
                 newUser.password = "newPassword";
 
                 const findOneStub = sinon.stub(User, "findOne").resolves(userMock);
-                //const saveStub = sinon.stub(User.prototype, "save").returns(testUsers[0]);
+                const saveStub = sinon.stub(User.prototype, "save").returns(testUsers[0]);
 
                 const result = await UserService.changePassword(
                     userMock.email,
