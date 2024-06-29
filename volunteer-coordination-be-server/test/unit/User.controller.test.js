@@ -77,7 +77,6 @@ describe("User Controller", () => {
             getUserStub.restore();
         });
 
-        // TODO come back to this after testing service and knowing what it returns
         it("should return 500 if req has invalid params", async () => {
             req.params = { email: null, something: "else" };
             const getUserStub = sinon.stub(UserService, "getUserByEmail").rejects();
