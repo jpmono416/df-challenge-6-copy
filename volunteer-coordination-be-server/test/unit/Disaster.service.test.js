@@ -12,7 +12,12 @@ describe("Disaster Service", () => {
 
     describe("getAllActiveDisasters", () => {
         it("should return all active disasters", async () => {
-            const findStub = sinon.stub(Disaster, "find").resolves(testDisasters.disasters);
+            // Mocking the chain: Disaster.find().populate().exec()
+            const findStub = sinon.stub(Disaster, "find").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().resolves(testDisasters.disasters),
+                }),
+            });
 
             const result = await DisasterService.getAllActiveDisasters();
 
@@ -22,7 +27,12 @@ describe("Disaster Service", () => {
 
         it("should throw an error if there is a problem fetching disasters", async () => {
             const error = new Error("Failed to fetch");
-            sinon.stub(Disaster, "find").rejects(error);
+            // Mocking the chain: Disaster.find().populate().exec()
+            sinon.stub(Disaster, "find").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().rejects(error),
+                }),
+            });
 
             await expect(DisasterService.getAllActiveDisasters()).to.be.rejectedWith(error.message);
         });

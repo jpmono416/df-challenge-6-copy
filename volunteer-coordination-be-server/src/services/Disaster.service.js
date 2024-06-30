@@ -1,11 +1,12 @@
-
 import Disaster from "../models/Disaster.model.js";
 import DisasterStatuses from "../enums/DisasterStatuses.js";
 
 export default class DisasterService {
     static getAllActiveDisasters = async () => {
         try {
-            return await Disaster.find({ status: DisasterStatuses.ACTIVE });
+            return await Disaster.find({ status: DisasterStatuses.ACTIVE })
+                .populate("resourceRequests")
+                .exec();
         } catch (error) {
             throw new Error("Error fetching active disasters: " + error.message);
         }
