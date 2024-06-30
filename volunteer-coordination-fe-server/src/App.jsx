@@ -5,6 +5,8 @@ import MainSection from "./components/home/MainSection";
 import AppFooter from "./components/shared/AppFooter";
 import AppNavbar from "./components/shared/AppNavbar";
 import LoginCard from "./components/login/LoginCard";
+import DisasterDetails from "./components/disasters/DisasterDetails";
+import DisasterList from "./components/disasters/DisasterList";
 import { AuthContext } from "./auth/AuthProvider";
 
 const App = () => {
@@ -30,6 +32,8 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<MainSection />} />
                         <Route path="/login" element={<LoginCard />} />
+                        <Route path="/disasters" element={<DisasterList />} />
+                        <Route path="/disasters/:id" element={<DisasterDetails />} />
                     </Routes>
                 </div>
                 <AppFooter />

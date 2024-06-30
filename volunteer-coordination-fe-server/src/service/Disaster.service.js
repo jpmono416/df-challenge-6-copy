@@ -5,9 +5,14 @@ export default class DisasterService {
     static getAllActiveDisasters = async () => {
         try {
             const response = await axios.get(`${Config.backendUrl()}/disasters`);
+            console.log(response.data);
             return response.data; // Array of active disasters
         } catch (error) {
-            return { failed: true, message: "An unexpected error occurred while fetching disasters. Please try again." };
+            console.log(error);
+            return {
+                failed: true,
+                message: "An unexpected error occurred while fetching disasters. Please try again.",
+            };
         }
     };
 
@@ -16,7 +21,11 @@ export default class DisasterService {
             const response = await axios.get(`${Config.backendUrl()}/disasters/count`);
             return response.data.count; // Count of active disasters
         } catch (error) {
-            return { failed: true, message: "An unexpected error occurred while fetching disaster count. Please try again." };
+            return {
+                failed: true,
+                message:
+                    "An unexpected error occurred while fetching disaster count. Please try again.",
+            };
         }
     };
 
@@ -27,7 +36,11 @@ export default class DisasterService {
             });
             return response.data; // New disaster object
         } catch (error) {
-            return { failed: true, message: "An unexpected error occurred while adding a new disaster. Please try again." };
+            return {
+                failed: true,
+                message:
+                    "An unexpected error occurred while adding a new disaster. Please try again.",
+            };
         }
     };
 
@@ -38,7 +51,11 @@ export default class DisasterService {
             });
             return response.data; // Updated disaster object
         } catch (error) {
-            return { failed: true, message: "An unexpected error occurred while updating disaster details. Please try again." };
+            return {
+                failed: true,
+                message:
+                    "An unexpected error occurred while updating disaster details. Please try again.",
+            };
         }
     };
 
@@ -50,7 +67,11 @@ export default class DisasterService {
             });
             return response.data; // Confirmation of deletion
         } catch (error) {
-            return { failed: true, message: "An unexpected error occurred while deleting the disaster. Please try again." };
+            return {
+                failed: true,
+                message:
+                    "An unexpected error occurred while deleting the disaster. Please try again.",
+            };
         }
     };
 }
