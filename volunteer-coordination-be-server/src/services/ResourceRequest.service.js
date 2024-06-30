@@ -3,8 +3,7 @@ import ResourceRequest from "../models/ResourceRequest.model.js";
 export default class ResourceRequestService {
     static getAllResourceRequests = async () => {
         try {
-            return await ResourceRequest.find({})
-                .exec();
+            return await ResourceRequest.find({}).exec();
         } catch (error) {
             throw new Error("Error fetching resource requests: " + error.message);
         }
@@ -20,10 +19,22 @@ export default class ResourceRequestService {
         }
     };
 
+    static addManyResourceRequests = async (requestsData) => {
+        try {
+            const newRequests = await ResourceRequest.insertMany(requestsData);
+            return newRequests.map((request) => request._id);
+        } catch (error) {
+            console.log("AddMany error: ", error);
+            throw new Error("Error creating new resource requests: " + error.message);
+        }
+    };
+
     static updateResourceRequest = async (requestData) => {
         try {
             const { id, ...updateData } = requestData;
-            const updatedRequest = await ResourceRequest.findByIdAndUpdate(id, updateData, { new: true });
+            const updatedRequest = await ResourceRequest.findByIdAndUpdate(id, updateData, {
+                new: true,
+            });
             return updatedRequest;
         } catch (error) {
             throw new Error("Error updating resource request: " + error.message);

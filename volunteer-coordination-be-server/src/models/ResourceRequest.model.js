@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import ResourceReqStatuses from "../enums/ResourceRequestStatuses.js"
+import ResourceReqStatuses from "../enums/ResourceRequestStatuses.js";
 import ResourceTypes from "../enums/ResourceTypes.js";
 import UrgencyLevels from "../enums/UrgencyLevels.js";
 
@@ -7,7 +7,6 @@ const resourceRequestSchema = new Schema({
     disasterId: {
         type: Schema.Types.ObjectId,
         ref: "Disaster",
-        required: true,
     },
     requestedResourceType: {
         type: String,
@@ -32,14 +31,11 @@ const resourceRequestSchema = new Schema({
         required: true,
         enum: Object.values(UrgencyLevels),
     },
-    location: {
-        type: String,
-        required: true,
-    },
     status: {
         type: String,
         required: true,
         enum: Object.values(ResourceReqStatuses),
+        default: ResourceReqStatuses.STILL_NEEDED,
     },
     requestedBy: {
         type: Schema.Types.ObjectId,

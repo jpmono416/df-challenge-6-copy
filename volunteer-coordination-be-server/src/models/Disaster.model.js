@@ -18,6 +18,7 @@ const disasterSchema = new Schema({
         type: String,
         required: true,
         enum: Object.values(DisasterStatuses),
+        default: DisasterStatuses.ACTIVE,
     },
     createdBy: {
         type: Schema.Types.ObjectId,

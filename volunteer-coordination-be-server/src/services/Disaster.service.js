@@ -20,6 +20,14 @@ export default class DisasterService {
         }
     };
 
+    static getDisasterById = async (id) => {
+        try {
+            return await Disaster.findById(id).populate("resourceRequests").exec();
+        } catch (error) {
+            throw new Error("Error fetching disaster by ID: " + error.message);
+        }
+    };
+
     static addNewDisaster = async (disasterData) => {
         try {
             const disaster = new Disaster(disasterData);
