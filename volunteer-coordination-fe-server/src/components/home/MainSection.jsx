@@ -12,11 +12,8 @@ const MainSection = () => {
     useEffect(() => {
         const fetchDisasterCount = async () => {
             const result = await DisasterService.getActiveDisastersCount();
-            if (!result.failed) {
-                setDisasterCount(result);
-            } else {
-                console.error(result.message); // TODO navigate to error page
-            }
+            if (!result.failed) setDisasterCount(result);
+            else navigate("/error");
         };
 
         fetchDisasterCount();
@@ -29,7 +26,10 @@ const MainSection = () => {
                     <Col md={6}>
                         <CustomCard>
                             <MainText disasterCount={disasterCount} />
-                            <div className="d-flex justify-content-center" style={{ marginTop: "25px" }} >
+                            <div
+                                className="d-flex justify-content-center"
+                                style={{ marginTop: "25px" }}
+                            >
                                 <Button
                                     variant="success"
                                     size="lg"
@@ -45,7 +45,10 @@ const MainSection = () => {
                                 <h5 className="text-center mt-3">
                                     Is your community in need of help? <br />
                                 </h5>
-                                <div className="d-flex justify-content-center" style={{ marginTop: "25px" }} >
+                                <div
+                                    className="d-flex justify-content-center"
+                                    style={{ marginTop: "25px" }}
+                                >
                                     <Button
                                         variant="primary"
                                         size="lg"

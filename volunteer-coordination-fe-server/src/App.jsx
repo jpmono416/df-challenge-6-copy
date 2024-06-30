@@ -7,6 +7,9 @@ import AppNavbar from "./components/shared/AppNavbar";
 import LoginCard from "./components/login/LoginCard";
 import DisasterDetails from "./components/disasters/DisasterDetails";
 import DisasterList from "./components/disasters/DisasterList";
+import InternalError from "./components/shared/InternalError";
+import CreateDisasterCard from "./components/disasters/CreateDisasterCard";
+
 import { AuthContext } from "./auth/AuthProvider";
 
 const App = () => {
@@ -25,15 +28,15 @@ const App = () => {
     return (
         <BrowserRouter>
             <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-                {/* Flex container */}
                 <AppNavbar />
                 <div style={{ flex: 1 }}>
-                    {/* Main content area */}
                     <Routes>
                         <Route path="/" element={<MainSection />} />
                         <Route path="/login" element={<LoginCard />} />
                         <Route path="/disasters" element={<DisasterList />} />
                         <Route path="/disasters/:id" element={<DisasterDetails />} />
+                        <Route path="/disasters/create" element={<CreateDisasterCard />} />
+                        <Route path="/error" element={<InternalError />} />
                     </Routes>
                 </div>
                 <AppFooter />

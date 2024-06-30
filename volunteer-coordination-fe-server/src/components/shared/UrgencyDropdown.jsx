@@ -4,7 +4,7 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 const UrgencyDropdown = ({ selectedUrgency, setSelectedUrgency }) => {
     return (
         <DropdownButton
-            id="dropdown-basic-button"
+            id="dropdown-urgency"
             title={selectedUrgency}
             onSelect={setSelectedUrgency}
             variant="outline-secondary"

@@ -8,10 +8,22 @@ export default class DisasterService {
             console.log(response.data);
             return response.data; // Array of active disasters
         } catch (error) {
-            console.log(error);
             return {
                 failed: true,
                 message: "An unexpected error occurred while fetching disasters. Please try again.",
+            };
+        }
+    };
+
+    static getDisasterById = async (disasterId) => {
+        try {
+            const response = await axios.get(`${Config.backendUrl()}/disasters/${disasterId}`);
+            return response.data; // Single disaster object
+        } catch (error) {
+            return {
+                failed: true,
+                message:
+                    "An unexpected error occurred while fetching the disaster. Please try again.",
             };
         }
     };
@@ -21,6 +33,7 @@ export default class DisasterService {
             const response = await axios.get(`${Config.backendUrl()}/disasters/count`);
             return response.data.count; // Count of active disasters
         } catch (error) {
+            console.log(error);
             return {
                 failed: true,
                 message:
@@ -31,10 +44,19 @@ export default class DisasterService {
 
     static addNewDisaster = async (disasterData, token) => {
         try {
+            console.log("Disaster data: ", disasterData, "Token: ", token);
+            //? Add createdBy to each resource request before sending to the backend for simpler data processing
+            disasterData.resourceRequests = disasterData.resourceRequests.map((request) => ({
+                ...request,
+                requestedBy: disasterData.createdBy,
+            }));
+
             const response = await axios.post(`${Config.backendUrl()}/disasters`, disasterData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            return response.data; // New disaster object
+
+            console.log("Data being rtn", response.data);
+            return response.data;
         } catch (error) {
             return {
                 failed: true,
