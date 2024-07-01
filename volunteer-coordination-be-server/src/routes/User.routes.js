@@ -15,18 +15,12 @@ export default class UserRoutes {
     #initializeRoutes = () => {
         // User
         this.#router.get("/:email", UserController.getUserByEmail);
-        this.#router.post(
-            "/register",
-            UserValidator.validateUserRegistration,
-            UserController.createUser
-        );
+        this.#router.get("/id/:id", UserController.getUserById);
+        this.#router.post("/register", UserValidator.validateUserRegistration, UserController.createUser);
         this.#router.post("/login", UserController.loginUser);
-        this.#router.put(
-            "/changePassword",
-            AuthValidator.verifyToken,
-            UserController.changePassword
-        );
-        // this.#router.post("/track", UserValidator.validate, UserController.trackNaturalDisaster);
+        this.#router.put("/changePassword", AuthValidator.verifyToken, UserController.changePassword);
+        this.#router.put("/track", AuthValidator.verifyToken, UserController.trackNaturalDisaster);
+        this.#router.put("/untrack", AuthValidator.verifyToken, UserController.untrackNaturalDisaster);
 
         // Roles
         this.#router.post("/role", AuthValidator.verifyToken, UserController.addRole);

@@ -11,6 +11,7 @@ import DisasterService from "../../service/Disaster.service.js";
 
 import { AuthContext } from "../../auth/AuthProvider.jsx";
 import ResourceList from "../resourceRequests/ResourceList.jsx";
+import CustomTitle from "../shared/CustomTitle.jsx";
 
 const CreateDisasterCard = () => {
     const [location, setLocation] = useState("");
@@ -51,6 +52,7 @@ const CreateDisasterCard = () => {
     return (
         <CustomContainer>
             <CustomCard>
+                <CustomTitle>Report a disaster</CustomTitle>
                 <Row className="justify-content-center">
                     <div className="d-flex justify-content-center" style={{ marginTop: "25px" }}>
                         <CustomHeader>Create a new disaster</CustomHeader>

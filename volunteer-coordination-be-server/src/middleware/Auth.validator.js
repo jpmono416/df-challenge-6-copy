@@ -11,10 +11,11 @@ export default class AuthValidator {
                     return res.sendStatus(403); // Forbidden
                 }
 
-                req.user = user; 
+                req.user = user;
                 next();
             });
         } else {
+            console.log(req);
             res.sendStatus(401); // Unauthorized
         }
     };

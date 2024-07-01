@@ -19,6 +19,12 @@ const AuthProvider = ({ children }) => {
         localStorage.setItem("token", token);
     };
 
+    const updateUserDetails = (details) => {
+        console.log("Setting: ", details);
+        setUserDetails(details);
+        localStorage.setItem("user", JSON.stringify(details));
+    };
+
     const logout = () => {
         setAuthToken("");
         setUserDetails({});
@@ -26,7 +32,9 @@ const AuthProvider = ({ children }) => {
 
     // Provide the authentication state and login/logout functions to the child components
     return (
-        <AuthContext.Provider value={{ authToken, userDetails, addLoginToContext, logout }}>
+        <AuthContext.Provider
+            value={{ authToken, userDetails, addLoginToContext, updateUserDetails, logout }}
+        >
             {children}
         </AuthContext.Provider>
     );

@@ -7,13 +7,13 @@ import ResourcesRow from "../resourceRequests/ResourcesRow";
 
 const DisasterListEntry = ({ disaster }) => {
     return (
-        <Link to={`/disasters/${disaster._id}`} style={{ textDecoration: 'none' }}>
+        <Link to={`/disasters/${disaster._id}`} style={{ textDecoration: "none" }}>
             <CustomCard>
                 <Row>
                     <CustomHeader>Location: {disaster.location}</CustomHeader>
                 </Row>
                 <CustomHeader>Description: {disaster.description}</CustomHeader>
-                <CustomHeader>Affected people: {disaster.affectedPeople}</CustomHeader>
+                <CustomHeader>Affected people: {disaster.estimationPeopleAffected}</CustomHeader>
                 <ResourcesRow resources={disaster.resourceRequests} />
             </CustomCard>
         </Link>

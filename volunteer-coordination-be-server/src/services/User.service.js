@@ -19,10 +19,10 @@ export default class UserService {
             // Load configuration to ensure environment variables are available
             Config.load();
             const { JWT_SECRET } = process.env;
-            
+
             //? The frontend sends a boolean value for wantsToVolunteer, which is converted to a role. This is to hide the role from the user.
             UserService.processRequestRoles(newUser);
-            
+
             const user = new User(newUser);
             await user.save();
 
@@ -47,7 +47,20 @@ export default class UserService {
      */
     static getUserByEmail = async (email) => {
         try {
-            return await User.findOne({ email: email });
+            return await User.findOne({ email: email }).populate("trackedDisasters").exec();
+        } catch (error) {
+            throw new Error("Invalid user: " + error.message);
+        }
+    };
+
+    /**
+     * Retrieves a user by their ID.
+     * @param {string} id - The ID of the user to retrieve.
+     * @returns {Promise<Object>} The user object if found, otherwise null.
+     */
+    static getUserById = async (id) => {
+        try {
+            return await User.findById(id).populate("trackedDisasters").exec();
         } catch (error) {
             throw new Error("Invalid user: " + error.message);
         }
@@ -62,6 +75,7 @@ export default class UserService {
     static loginUser = async (email, password) => {
         try {
             const user = await UserService.getUserByEmail(email);
+            console.log("User:", user);
             // Verify the password matches
             if (user?.password !== password) return;
 
@@ -114,7 +128,7 @@ export default class UserService {
 
     static processRequestRoles = async (newUser) => {
         newUser.roles = [Roles.USER];
-        
+
         if (newUser.wantsToVolunteer === true) {
             newUser.roles.push(Roles.VOLUNTEER);
             newUser.wantsToVolunteer = undefined; // Remove the field from the user object (not in model)
@@ -138,6 +152,48 @@ export default class UserService {
         } catch (error) {
             console.error("Changing password failed:", error);
             throw new Error("Changing password failed: " + error.message);
+        }
+    };
+
+    /**
+     * Tracks a disaster for a user.
+     * @param {string} userId - The ID of the user to track the disaster for.
+     * @param {string} disasterId - The ID of the disaster to track.
+     * @returns {Promise<Object|undefined>} The updated user if successful, otherwise undefined.
+     */
+    static trackNaturalDisaster = async (userId, disasterId) => {
+        try {
+            const user = await UserService.getUserById(userId);
+            if (!user) return;
+
+            user.trackedDisasters.push(disasterId);
+            await user.save();
+            return await UserService.getUserById(userId);
+        } catch (error) {
+            throw new Error("Tracking disaster failed: " + error.message);
+        }
+    };
+
+    /**
+     * Stops tracking a disaster for a user.
+     * @param {string} userId - The ID of the user to untrack the disaster for.
+     * @param {string} disasterId - The ID of the disaster to untrack.
+     * @returns {Promise<Object|undefined>} The updated user if successful, otherwise undefined.
+     */
+    static untrackNaturalDisaster = async (userId, disasterId) => {
+        try {
+            const user = await UserService.getUserById(userId);
+            if (!user) return;
+
+            user.trackedDisasters = user.trackedDisasters.filter(
+                (disaster) => disaster._id.toString() !== disasterId
+            );
+            console.log("After: ", user.trackedDisasters);
+            await user.save();
+            return await UserService.getUserById(userId);
+        } catch (error) {
+            console.log(error);
+            throw new Error("Untracking disaster failed: " + error.message);
         }
     };
 }

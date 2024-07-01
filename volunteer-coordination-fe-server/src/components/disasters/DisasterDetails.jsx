@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
+
 import CustomCard from "../shared/CustomCard";
 import CustomContainer from "../shared/CustomContainer";
 import CustomHeader from "../shared/CustomHeader";
@@ -9,6 +10,10 @@ import ResourcesRow from "../resourceRequests/ResourcesRow.jsx";
 
 import { AuthContext } from "../../auth/AuthProvider.jsx";
 import ResourceList from "../resourceRequests/ResourceList.jsx";
+import CustomTitle from "../shared/CustomTitle.jsx";
+import UserService from "../../service/User.service.js";
+import TrackDisasterButton from "./TrackDisasterButton.jsx";
+import UntrackDisasterButton from "./UntrackDisasterButton.jsx";
 
 const DisasterDetails = () => {
     const { id } = useParams();
@@ -19,7 +24,8 @@ const DisasterDetails = () => {
     const [estimationPeopleAffected, setEstimationPeopleAffected] = useState(0);
     const [resourceRequests, setResourceRequests] = useState([]);
 
-    const { authToken, userDetails } = useContext(AuthContext); // Replace with your login logic
+    const { authToken, userDetails, updateUserDetails } = useContext(AuthContext); // Replace with your login logic
+    const [isTrackingDisaster, setIsTrackingDisaster] = useState(false);
 
     const navigate = useNavigate();
 
@@ -39,7 +45,38 @@ const DisasterDetails = () => {
         };
 
         fetchDisaster();
-    }, [id, navigate]);
+    }, [id]);
+
+    useEffect(() => {
+        if (disaster) {
+            const trackingStatus = userDetails.trackedDisasters.some(
+                (trackedDisaster) => trackedDisaster._id === disaster._id
+            );
+            setIsTrackingDisaster(trackingStatus);
+        }
+    }, [disaster, userDetails.trackedDisasters]);
+
+    const handleTrackDisaster = async () => {
+        const response = await UserService.trackDisaster(disaster._id, userDetails._id, authToken);
+        if (response.failed) {
+            navigate("/error");
+            return;
+        }
+        updateUserDetails(response);
+        setIsTrackingDisaster(true);
+        console.log("Add a toast message here: " + response); // TODO
+    };
+
+    const handleUntrackDisaster = async () => {
+        const response = await UserService.untrackDisaster(disaster._id, userDetails._id, authToken);
+        if (response.failed) {
+            navigate("/error");
+            return;
+        }
+        updateUserDetails(response);
+        setIsTrackingDisaster(false);
+        console.log("Disaster untracked successfully: ", response); // TODO
+    };
 
     const handleSave = async (event) => {
         event.preventDefault();
@@ -74,6 +111,7 @@ const DisasterDetails = () => {
     return isEditing ? (
         <CustomContainer>
             <CustomCard>
+                <CustomTitle>Edit details</CustomTitle>
                 <Form onSubmit={handleSave}>
                     <Form.Group controlId="formLocation">
                         <Form.Label>Location</Form.Label>
@@ -116,6 +154,7 @@ const DisasterDetails = () => {
     ) : (
         <CustomContainer>
             <CustomCard>
+                <CustomTitle>Disaster details</CustomTitle>
                 <CustomHeader>Location: {disaster.location} </CustomHeader>
                 <CustomHeader>Description: {disaster.description} </CustomHeader>
                 <CustomHeader>Affected people: {disaster.estimationPeopleAffected} </CustomHeader>
@@ -130,6 +169,11 @@ const DisasterDetails = () => {
                 <Button variant="info" onClick={() => setIsEditing(true)}>
                     Edit
                 </Button>
+                {isTrackingDisaster ? (
+                    <UntrackDisasterButton onClick={handleUntrackDisaster} />
+                ) : (
+                    <TrackDisasterButton onClick={handleTrackDisaster} />
+                )}
             </CustomCard>
         </CustomContainer>
     );

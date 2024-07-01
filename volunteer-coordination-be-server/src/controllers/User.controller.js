@@ -27,6 +27,19 @@ export default class UserController {
         }
     };
 
+    static getUserById = async (req, res) => {
+        try {
+            if (!req.params) return res.status(400).json({ error: "Invalid user ID" });
+            const user = await UserService.getUserById(req.params.id);
+            console.log("User in controller: ", user); // TODO delete
+            if (!user) return res.status(404).json({ error: "User not found" });
+
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    };
+
     // Credentials
     static loginUser = async (req, res) => {
         try {
@@ -99,4 +112,32 @@ export default class UserController {
             res.status(500).json({ error: error.message });
         }
     };
+
+    static trackNaturalDisaster = async (req, res) => {
+        try {
+            if (!req.body.disasterId || !req.body.userId)
+                return res.status(400).json({ error: "Invalid user or disaster id" });
+
+            const user = await UserService.trackNaturalDisaster(req.body.userId, req.body.disasterId);
+            if (!user) return res.status(404).json({ error: "User not found" });
+
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    };
+
+    static untrackNaturalDisaster = async (req, res) => {
+        try {
+            if (!req.body.disasterId || !req.body.userId)
+                return res.status(400).json({ error: "Invalid user or disaster id" });
+
+            const user = await UserService.untrackNaturalDisaster(req.body.userId, req.body.disasterId);
+            if (!user) return res.status(404).json({ error: "User not found" });
+
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
 }

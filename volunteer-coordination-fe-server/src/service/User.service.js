@@ -2,6 +2,22 @@ import axios from "axios";
 import Config from "../config/Config.js";
 
 export default class UserService {
+    static defaultError = {
+        failed: true,
+        message: "An unexpected error occurred. Please try again.",
+    };
+
+    static getUserById = async (userId) => {
+        try {
+            const response = await axios.get(`${Config.backendUrl()}/user/id/${userId}`);
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return UserService.defaultError;
+        }
+    };
+
     static registerUser = async (userData) => {
         try {
             const response = await axios.post(`${Config.backendUrl()}/user/register`, userData);
@@ -14,7 +30,7 @@ export default class UserService {
             ) {
                 return { failed: true, message: "The email has already been taken." };
             } else {
-                return { failed: true, message: "An unexpected error occurred. Please try again." };
+                return UserService.defaultError;
             }
         }
     };
@@ -24,7 +40,7 @@ export default class UserService {
             const response = await axios.post(`${Config.backendUrl()}/user/login`, credentials);
             return response.data;
         } catch (error) {
-            return { failed: true, message: "An unexpected error occurred. Please try again." };
+            return UserService.defaultError;
         }
     };
 
@@ -51,5 +67,34 @@ export default class UserService {
 
         // If all validations pass
         return { isValid: true, message: "Validation successful" };
+    };
+
+    static trackDisaster = async (disasterId, userId, token) => {
+        try {
+            const response = await axios.put(
+                `${Config.backendUrl()}/user/track`,
+                { userId: userId, disasterId: disasterId },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            console.log(response.data);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return UserService.defaultError;
+        }
+    };
+
+    static untrackDisaster = async (disasterId, userId, token) => {
+        try {
+            const response = await axios.put(
+                `${Config.backendUrl()}/user/untrack`,
+                { userId: userId, disasterId: disasterId },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return UserService.defaultError;
+        }
     };
 }

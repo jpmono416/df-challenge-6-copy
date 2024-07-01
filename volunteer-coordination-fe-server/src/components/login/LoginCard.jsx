@@ -6,6 +6,7 @@ import UserService from "../../service/User.service";
 import CustomCard from "../shared/CustomCard";
 import CustomContainer from "../shared/CustomContainer";
 import { RegisterExtraFields } from "./RegisterExtraFields";
+import CustomTitle from "../shared/CustomTitle";
 
 const LoginCard = () => {
     const [isRegister, setIsRegister] = useState(false);
@@ -76,7 +77,7 @@ const LoginCard = () => {
     return (
         <CustomContainer>
             <CustomCard>
-                <Card.Title>{isRegister ? "Register" : "Login"}</Card.Title>
+                <CustomTitle>{isRegister ? "Register" : "Login"}</CustomTitle>
                 {validationMessage && <Alert variant="danger">{validationMessage}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     {isRegister && (

@@ -23,10 +23,13 @@ const AppNavbar = () => {
                     <Nav.Link as={Link} to="/" className="text-white px-5">
                         Home
                     </Nav.Link>
+                    <Nav.Link as={Link} to="/Disasters" className="text-white px-5">
+                        Ongoing disasters
+                    </Nav.Link>
                     {authToken !== "" ? (
                         <>
-                            <Nav.Link as={Link} to="/Disasters" className="text-white px-5">
-                                Ongoing disasters
+                            <Nav.Link as={Link} to="/Profile" className="text-white px-5">
+                                Profile
                             </Nav.Link>
                             <Nav.Link
                                 as={Button}

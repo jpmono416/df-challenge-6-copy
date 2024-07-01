@@ -9,6 +9,7 @@ import DisasterDetails from "./components/disasters/DisasterDetails";
 import DisasterList from "./components/disasters/DisasterList";
 import InternalError from "./components/shared/InternalError";
 import CreateDisasterCard from "./components/disasters/CreateDisasterCard";
+import ProfileCard from "./components/profile/ProfileCard";
 
 import { AuthContext } from "./auth/AuthProvider";
 
@@ -33,6 +34,7 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<MainSection />} />
                         <Route path="/login" element={<LoginCard />} />
+                        <Route path="/profile" element={<ProfileCard />} />
                         <Route path="/disasters" element={<DisasterList />} />
                         <Route path="/disasters/:id" element={<DisasterDetails />} />
                         <Route path="/disasters/create" element={<CreateDisasterCard />} />

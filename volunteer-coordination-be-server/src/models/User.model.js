@@ -20,16 +20,10 @@ const userSchema = new Schema({
         enum: Object.values(Roles),
         default: [],
     },
-    disasterTracking: [
+    trackedDisasters: [
         {
             type: Schema.Types.ObjectId,
             ref: "Disaster",
-        },
-    ],
-    resourceRequests: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "ResourceRequest",
         },
     ],
 });
