@@ -23,7 +23,7 @@ const EditResourceDetailsModal = ({ show, handleClose, resource, onUpdateResourc
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Edit resource request details</Modal.Title>
+                <Modal.Title>Edit Resource request details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <ResourceDetailsForm

@@ -14,6 +14,7 @@ import CustomTitle from "../shared/CustomTitle.jsx";
 import UserService from "../../service/User.service.js";
 import TrackDisasterButton from "./TrackDisasterButton.jsx";
 import UntrackDisasterButton from "./UntrackDisasterButton.jsx";
+import EditDisasterCard from "./EditDisasterCard.jsx";
 
 const DisasterDetails = () => {
     const { id } = useParams();
@@ -23,6 +24,7 @@ const DisasterDetails = () => {
     const [description, setDescription] = useState("");
     const [estimationPeopleAffected, setEstimationPeopleAffected] = useState(0);
     const [resourceRequests, setResourceRequests] = useState([]);
+    const [status, setStatus] = useState("");
 
     const { authToken, userDetails, updateUserDetails } = useContext(AuthContext); // Replace with your login logic
     const [isTrackingDisaster, setIsTrackingDisaster] = useState(false);
@@ -42,6 +44,7 @@ const DisasterDetails = () => {
             setDescription(result.description);
             setEstimationPeopleAffected(result.estimationPeopleAffected);
             setResourceRequests(result.resourceRequests);
+            setStatus(result.status);
         };
 
         fetchDisaster();
@@ -67,7 +70,11 @@ const DisasterDetails = () => {
     };
 
     const handleUntrackDisaster = async () => {
-        const response = await UserService.untrackDisaster(disaster._id, userDetails._id, authToken);
+        const response = await UserService.untrackDisaster(
+            disaster._id,
+            userDetails._id,
+            authToken
+        );
         if (response.failed) {
             navigate("/error");
             return;
@@ -83,6 +90,7 @@ const DisasterDetails = () => {
             location,
             description,
             estimationPeopleAffected,
+            status,
             resourceRequests,
             createdBy: userDetails._id,
         };
@@ -106,52 +114,26 @@ const DisasterDetails = () => {
     }
 
     return isEditing ? (
-        <CustomContainer>
-            <CustomCard>
-                <CustomTitle>Edit details</CustomTitle>
-                <Form onSubmit={handleSave}>
-                    <Form.Group controlId="formLocation">
-                        <Form.Label>Location</Form.Label>
-                        <Form.Control
-                            disabled={true}
-                            type="text"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formDescription">
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formAffectedPeople">
-                        <Form.Label>Affected People</Form.Label>
-                        <Form.Control
-                            type="text"
-                            value={estimationPeopleAffected}
-                            onChange={(e) => setEstimationPeopleAffected(e.target.value)}
-                        />
-                    </Form.Group>
-                    <ResourceList
-                        resourceRequests={resourceRequests}
-                        onResourcesUpdate={handleResourcesUpdate}
-                    />
-                    <Button variant="primary" type="submit">
-                        Save
-                    </Button>
-                    <Button variant="secondary" onClick={() => setIsEditing(false)}>
-                        Cancel
-                    </Button>
-                </Form>
-            </CustomCard>
-        </CustomContainer>
+        <EditDisasterCard
+            location={location}
+            description={description}
+            estimationPeopleAffected={estimationPeopleAffected}
+            resourceRequests={resourceRequests}
+            status={status}
+            setLocation={setLocation}
+            setDescription={setDescription}
+            setEstimationPeopleAffected={setEstimationPeopleAffected}
+            handleSave={handleSave}
+            handleResourcesUpdate={handleResourcesUpdate}
+            setIsEditing={setIsEditing}
+            setStatus={setStatus}
+        />
     ) : (
         <CustomContainer>
             <CustomCard>
                 <CustomTitle>Disaster details</CustomTitle>
+                <CustomHeader>Status: {disaster.status} </CustomHeader>
+
                 <CustomHeader>Location: {disaster.location} </CustomHeader>
                 <CustomHeader>Description: {disaster.description} </CustomHeader>
                 <CustomHeader>Affected people: {disaster.estimationPeopleAffected} </CustomHeader>
