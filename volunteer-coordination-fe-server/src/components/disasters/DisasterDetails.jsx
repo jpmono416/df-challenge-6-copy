@@ -64,7 +64,6 @@ const DisasterDetails = () => {
         }
         updateUserDetails(response);
         setIsTrackingDisaster(true);
-        console.log("Add a toast message here: " + response); // TODO
     };
 
     const handleUntrackDisaster = async () => {
@@ -75,7 +74,6 @@ const DisasterDetails = () => {
         }
         updateUserDetails(response);
         setIsTrackingDisaster(false);
-        console.log("Disaster untracked successfully: ", response); // TODO
     };
 
     const handleSave = async (event) => {
@@ -94,7 +92,6 @@ const DisasterDetails = () => {
             navigate("/error");
             return;
         }
-        console.log("Response:", response);
         // Return to the disaster details
         setDisaster(response);
         setIsEditing(false);

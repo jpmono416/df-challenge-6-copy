@@ -75,7 +75,6 @@ export default class UserService {
     static loginUser = async (email, password) => {
         try {
             const user = await UserService.getUserByEmail(email);
-            console.log("User:", user);
             // Verify the password matches
             if (user?.password !== password) return;
 
@@ -188,11 +187,9 @@ export default class UserService {
             user.trackedDisasters = user.trackedDisasters.filter(
                 (disaster) => disaster._id.toString() !== disasterId
             );
-            console.log("After: ", user.trackedDisasters);
             await user.save();
             return await UserService.getUserById(userId);
         } catch (error) {
-            console.log(error);
             throw new Error("Untracking disaster failed: " + error.message);
         }
     };

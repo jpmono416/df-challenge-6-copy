@@ -7,7 +7,6 @@ export default class UserController {
             if (!req.body) return res.status(400).json({ error: "Invalid user" });
 
             const { user, token } = await UserService.createUser(req.body);
-            console.log("Controller: User: ", user, "Token: ", token); // TODO delete
 
             res.status(201).json({ user, token });
         } catch (error) {
@@ -31,7 +30,6 @@ export default class UserController {
         try {
             if (!req.params) return res.status(400).json({ error: "Invalid user ID" });
             const user = await UserService.getUserById(req.params.id);
-            console.log("User in controller: ", user); // TODO delete
             if (!user) return res.status(404).json({ error: "User not found" });
 
             res.status(200).json(user);

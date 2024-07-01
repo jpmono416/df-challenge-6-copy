@@ -10,10 +10,8 @@ export default class UserService {
     static getUserById = async (userId) => {
         try {
             const response = await axios.get(`${Config.backendUrl()}/user/id/${userId}`);
-            console.log(response.data);
             return response.data;
         } catch (error) {
-            console.log(error);
             return UserService.defaultError;
         }
     };
@@ -76,10 +74,8 @@ export default class UserService {
                 { userId: userId, disasterId: disasterId },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            console.log(response.data);
             return response.data;
         } catch (error) {
-            console.log(error);
             return UserService.defaultError;
         }
     };
@@ -93,7 +89,6 @@ export default class UserService {
             );
             return response.data;
         } catch (error) {
-            console.log(error);
             return UserService.defaultError;
         }
     };

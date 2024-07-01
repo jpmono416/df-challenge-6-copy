@@ -69,7 +69,6 @@ export default class DisasterService {
             });
             return response.data;
         } catch (error) {
-            console.log(error);
             return {
                 failed: true,
                 message:

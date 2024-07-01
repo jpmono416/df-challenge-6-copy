@@ -15,7 +15,6 @@ const ResourceList = ({ resourceRequests, onResourcesUpdate }) => {
     const handleCloseEditModal = () => setShowEditModal(false);
 
     const handleUpdateResource = (resourceId, updatedDetails) => {
-        console.log("ResourceLIst resource:", updatedDetails);
         const updatedResources = resourceRequests.map((resource) =>
             resource._id === resourceId ? { ...resource, ...updatedDetails } : resource
         );
@@ -24,7 +23,6 @@ const ResourceList = ({ resourceRequests, onResourcesUpdate }) => {
 
     return (
         <>
-            {console.log("ResourceRequests: ", resourceRequests)}
             <CustomHeader>Resources needed</CustomHeader>
             <ListGroup>
                 {resourceRequests.map((resource) => (

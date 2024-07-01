@@ -20,7 +20,6 @@ const AuthProvider = ({ children }) => {
     };
 
     const updateUserDetails = (details) => {
-        console.log("Setting: ", details);
         setUserDetails(details);
         localStorage.setItem("user", JSON.stringify(details));
     };

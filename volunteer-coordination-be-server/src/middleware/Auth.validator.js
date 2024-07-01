@@ -15,7 +15,6 @@ export default class AuthValidator {
                 next();
             });
         } else {
-            console.log(req);
             res.sendStatus(401); // Unauthorized
         }
     };

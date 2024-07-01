@@ -24,7 +24,6 @@ export default class ResourceRequestService {
             const newRequests = await ResourceRequest.insertMany(requestsData);
             return newRequests.map((request) => request._id);
         } catch (error) {
-            console.log("AddMany error: ", error);
             throw new Error("Error creating new resource requests: " + error.message);
         }
     };

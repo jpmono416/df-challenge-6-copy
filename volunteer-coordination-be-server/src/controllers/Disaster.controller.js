@@ -82,7 +82,6 @@ export default class DisasterController {
 
             res.status(200).json(refreshedDisaster);
         } catch (error) {
-            console.log(error);
             res.status(500).json({ error: error.message });
         }
     };
