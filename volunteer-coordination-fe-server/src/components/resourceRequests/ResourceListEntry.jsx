@@ -1,9 +1,13 @@
 import React from "react";
 import { ListGroup, Badge } from "react-bootstrap";
 
-const DisasterResourceListEntry = ({ type, description, quantityNeeded, urgency }) => {
+const ResourceListEntry = ({ type, description, quantityNeeded, urgency, onClick }) => {
     return (
-        <ListGroup.Item className="d-flex justify-content-between align-items-start">
+        <ListGroup.Item
+            className="d-flex justify-content-between align-items-start"
+            onClick={onClick}
+             style={{ cursor: "pointer" }}
+        >
             <div className="ms-2 me-auto">
                 <div className="fw-bold">{type}</div>
                 {description}
@@ -18,4 +22,4 @@ const DisasterResourceListEntry = ({ type, description, quantityNeeded, urgency 
     );
 };
 
-export default DisasterResourceListEntry;
+export default ResourceListEntry;

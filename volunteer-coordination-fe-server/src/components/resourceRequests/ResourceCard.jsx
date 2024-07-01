@@ -1,4 +1,4 @@
-const ResourceCard = ({ resourceType, percComplete }) => {
+const ResourceCard = ({ resource, onClick }) => {
     return (
         <div
             style={{
@@ -17,10 +17,14 @@ const ResourceCard = ({ resourceType, percComplete }) => {
                 border: "2px solid #000",
                 padding: "20px",
                 boxSizing: "border-box",
+                cursor: "pointer",
             }}
+            onClick={onClick}
         >
-            <p style={{ margin: "0", fontWeight: "bold" }}>{resourceType}</p>
-            <p style={{ margin: "0" }}>{percComplete}%</p>
+            <p style={{ margin: "0", fontWeight: "bold" }}>{resource.requestedResourceType}</p>
+            <p style={{ margin: "0" }}>
+                {Math.round((resource.quantityFulfilled / resource.quantityNeeded) * 100)}% supplied
+            </p>
         </div>
     );
 };

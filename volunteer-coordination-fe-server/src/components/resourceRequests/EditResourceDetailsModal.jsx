@@ -1,38 +1,29 @@
-// ResourceModalForm.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import ResourceDetailsForm from "./ResourceDetailsForm";
 
-const CreateResourceModal = ({ show, handleClose, addResource }) => {
-    const [urgencyLevel, setUrgencyLevel] = useState("Urgency");
-    const [requestedResourceType, setRequestedResourceType] = useState("");
-    const [description, setDescription] = useState("");
-    const [quantityNeeded, setQuantityNeeded] = useState(0);
-    const [quantityFulfilled, setQuantityFulfilled] = useState(0);
+const EditResourceDetailsModal = ({ show, handleClose, resource, onUpdateResource }) => {
+    const [urgencyLevel, setUrgencyLevel] = useState(resource.urgencyLevel || "Urgency");
+    const [requestedResourceType, setRequestedResourceType] = useState(resource.requestedResourceType || "");
+    const [description, setDescription] = useState(resource.description || "");
+    const [quantityNeeded, setQuantityNeeded] = useState(resource.quantityNeeded || "");
+    const [quantityFulfilled, setQuantityFulfilled] = useState(resource.quantityFulfilled || "");
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        addResource({
+    const handleSave = () => {
+        onUpdateResource(resource._id, {
             requestedResourceType,
             description,
             quantityNeeded,
             quantityFulfilled,
-            urgencyLevel: urgencyLevel === "Urgency" ? "Low" : urgencyLevel,
+            urgencyLevel,
         });
-
-        // Reset form
-        setRequestedResourceType("");
-        setDescription("");
-        setQuantityNeeded("");
-        setUrgencyLevel("Urgency");
         handleClose();
     };
 
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Add Resource</Modal.Title>
+                <Modal.Title>Edit resource request details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <ResourceDetailsForm
@@ -49,12 +40,15 @@ const CreateResourceModal = ({ show, handleClose, addResource }) => {
                 />
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={handleSubmit}>
-                    Create
+                <Button variant="primary" onClick={handleSave}>
+                    Update
+                </Button>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 };
 
-export default CreateResourceModal;
+export default EditResourceDetailsModal;

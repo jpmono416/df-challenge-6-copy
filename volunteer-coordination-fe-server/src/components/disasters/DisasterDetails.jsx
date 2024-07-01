@@ -1,25 +1,135 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
-import ResourceCard from "../resourceRequests/ResourceCard";
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Form, Button } from "react-bootstrap";
 import CustomCard from "../shared/CustomCard";
 import CustomContainer from "../shared/CustomContainer";
 import CustomHeader from "../shared/CustomHeader";
+import DisasterService from "../../service/Disaster.service.js";
+import ResourcesRow from "../resourceRequests/ResourcesRow.jsx";
+
+import { AuthContext } from "../../auth/AuthProvider.jsx";
+import ResourceList from "../resourceRequests/ResourceList.jsx";
 
 const DisasterDetails = () => {
-    return (
+    const { id } = useParams();
+    const [disaster, setDisaster] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [location, setLocation] = useState("");
+    const [description, setDescription] = useState("");
+    const [estimationPeopleAffected, setEstimationPeopleAffected] = useState(0);
+    const [resourceRequests, setResourceRequests] = useState([]);
+
+    const { authToken, userDetails } = useContext(AuthContext); // Replace with your login logic
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchDisaster = async () => {
+            const result = await DisasterService.getDisasterById(id);
+            if (result.failed) {
+                navigate("/error");
+                return;
+            }
+
+            setDisaster(result);
+            setLocation(result.location);
+            setDescription(result.description);
+            setEstimationPeopleAffected(result.estimationPeopleAffected);
+            setResourceRequests(result.resourceRequests);
+        };
+
+        fetchDisaster();
+    }, [id, navigate]);
+
+    const handleSave = async (event) => {
+        event.preventDefault();
+        const disasterData = {
+            id: disaster._id,
+            location,
+            description,
+            estimationPeopleAffected,
+            resourceRequests,
+            createdBy: userDetails._id,
+        };
+
+        const response = await DisasterService.updateDisasterDetails(disasterData, authToken);
+        if (response.failed) {
+            navigate("/error");
+            return;
+        }
+        console.log("Response:", response);
+        // Return to the disaster details
+        setDisaster(response);
+        setIsEditing(false);
+    };
+
+    const handleResourcesUpdate = (updatedResources) => {
+        setResourceRequests(updatedResources);
+    };
+
+    if (!disaster) {
+        return <div>Loading...</div>;
+    }
+
+    return isEditing ? (
         <CustomContainer>
             <CustomCard>
-                <CustomHeader>Location: (to be filled)</CustomHeader>
-                <CustomHeader>Description: (to be filled)</CustomHeader>
-                <div className="text-center mb-4">
-                    <h3>Resources needed:</h3>
-                </div>
-                <Row className="justify-content-center">
-                    <Col className="d-flex justify-content-center" sm={6} lg={3}> <ResourceCard /> </Col>
-                    <Col className="d-flex justify-content-center" sm={6} lg={3}> <ResourceCard /> </Col>
-                    <Col className="d-flex justify-content-center" sm={6} lg={3}> <ResourceCard /> </Col>
-                    <Col className="d-flex justify-content-center" sm={6} lg={3}> <ResourceCard /> </Col>
-                </Row>
+                <Form onSubmit={handleSave}>
+                    <Form.Group controlId="formLocation">
+                        <Form.Label>Location</Form.Label>
+                        <Form.Control
+                            disabled={true}
+                            type="text"
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formDescription">
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId="formAffectedPeople">
+                        <Form.Label>Affected People</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={estimationPeopleAffected}
+                            onChange={(e) => setEstimationPeopleAffected(e.target.value)}
+                        />
+                    </Form.Group>
+                    <ResourceList
+                        resourceRequests={resourceRequests}
+                        onResourcesUpdate={handleResourcesUpdate}
+                    />
+                    <Button variant="primary" type="submit">
+                        Save
+                    </Button>
+                    <Button variant="secondary" onClick={() => setIsEditing(false)}>
+                        Cancel
+                    </Button>
+                </Form>
+            </CustomCard>
+        </CustomContainer>
+    ) : (
+        <CustomContainer>
+            <CustomCard>
+                <CustomHeader>Location: {disaster.location} </CustomHeader>
+                <CustomHeader>Description: {disaster.description} </CustomHeader>
+                <CustomHeader>Affected people: {disaster.estimationPeopleAffected} </CustomHeader>
+                <Form.Text className="text-muted">
+                    Created: {new Date(disaster.createdAt).toLocaleDateString("en-GB")}
+                </Form.Text>
+                <br />
+                <Form.Text className="text-muted">
+                    Last Updated: {new Date(disaster.updatedAt).toLocaleDateString("en-GB")}
+                </Form.Text>
+                <ResourcesRow resources={disaster.resourceRequests} />
+                <Button variant="info" onClick={() => setIsEditing(true)}>
+                    Edit
+                </Button>
             </CustomCard>
         </CustomContainer>
     );

@@ -58,12 +58,31 @@ export default class DisasterController {
 
     static updateDisasterDetails = async (req, res) => {
         try {
-            if (!req.body || !req.body.id)
+            if (!req.body || !req.body.id || !req.body.resourceRequests)
                 return res.status(400).json({ error: "Invalid disaster data" });
-            const updatedDisaster = await DisasterService.updateDisasterDetails(req.body);
+
+            // Update the disaster details excluding resourceRequests
+            const { resourceRequests, ...disasterData } = req.body;
+            const updatedDisaster = await DisasterService.updateDisasterDetails(disasterData);
+
             if (!updatedDisaster) return res.status(404).json({ error: "Disaster not found" });
-            res.status(200).json(updatedDisaster);
+
+            // Update each resource request associated with the disaster
+            const updatePromises = resourceRequests.map((request) => {
+                const { _id, ...updateFields } = request;
+                return ResourceRequestService.updateResourceRequest({
+                    id: _id,
+                    ...updateFields,
+                });
+            });
+            await Promise.all(updatePromises); // Wait for all updates to complete
+
+            // Refresh to return resourceRequests with the disaster
+            const refreshedDisaster = await DisasterService.getDisasterById(updatedDisaster._id);
+
+            res.status(200).json(refreshedDisaster);
         } catch (error) {
+            console.log(error);
             res.status(500).json({ error: error.message });
         }
     };

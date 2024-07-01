@@ -5,8 +5,7 @@ export default class DisasterService {
     static getAllActiveDisasters = async () => {
         try {
             const response = await axios.get(`${Config.backendUrl()}/disasters`);
-            console.log(response.data);
-            return response.data; // Array of active disasters
+            return response.data;
         } catch (error) {
             return {
                 failed: true,
@@ -18,7 +17,7 @@ export default class DisasterService {
     static getDisasterById = async (disasterId) => {
         try {
             const response = await axios.get(`${Config.backendUrl()}/disasters/${disasterId}`);
-            return response.data; // Single disaster object
+            return response.data;
         } catch (error) {
             return {
                 failed: true,
@@ -31,9 +30,8 @@ export default class DisasterService {
     static getActiveDisastersCount = async () => {
         try {
             const response = await axios.get(`${Config.backendUrl()}/disasters/count`);
-            return response.data.count; // Count of active disasters
+            return response.data.count;
         } catch (error) {
-            console.log(error);
             return {
                 failed: true,
                 message:
@@ -44,7 +42,6 @@ export default class DisasterService {
 
     static addNewDisaster = async (disasterData, token) => {
         try {
-            console.log("Disaster data: ", disasterData, "Token: ", token);
             //? Add createdBy to each resource request before sending to the backend for simpler data processing
             disasterData.resourceRequests = disasterData.resourceRequests.map((request) => ({
                 ...request,
@@ -55,7 +52,6 @@ export default class DisasterService {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
-            console.log("Data being rtn", response.data);
             return response.data;
         } catch (error) {
             return {
@@ -71,8 +67,9 @@ export default class DisasterService {
             const response = await axios.put(`${Config.backendUrl()}/disasters`, disasterData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            return response.data; // Updated disaster object
+            return response.data;
         } catch (error) {
+            console.log(error);
             return {
                 failed: true,
                 message:
@@ -87,7 +84,7 @@ export default class DisasterService {
                 data: { id: disasterId },
                 headers: { Authorization: `Bearer ${token}` },
             });
-            return response.data; // Confirmation of deletion
+            return response.data;
         } catch (error) {
             return {
                 failed: true,

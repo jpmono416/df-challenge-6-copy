@@ -5,17 +5,18 @@ import { Row, Form, Button, OverlayTrigger, Tooltip, ListGroup } from "react-boo
 import CustomCard from "../shared/CustomCard";
 import CustomContainer from "../shared/CustomContainer";
 import CustomHeader from "../shared/CustomHeader";
-import DisasterResourceListEntry from "./DisasterResourceListEntry.jsx";
+import ResourceListEntry from "../resourceRequests/ResourceListEntry.jsx";
 import CreateResourceModal from "../resourceRequests/CreateResourceModal.jsx";
 import DisasterService from "../../service/Disaster.service.js";
 
 import { AuthContext } from "../../auth/AuthProvider.jsx";
+import ResourceList from "../resourceRequests/ResourceList.jsx";
 
 const CreateDisasterCard = () => {
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
     const [estimationPeopleAffected, setEstimationPeopleAffected] = useState(0);
-    const [resourceRequests, setResources] = useState([]);
+    const [resourceRequests, setResourceRequests] = useState([]);
 
     const [showModal, setShowModal] = useState(false);
     const { authToken, userDetails } = useContext(AuthContext); // Replace with your login logic
@@ -25,7 +26,7 @@ const CreateDisasterCard = () => {
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
     const handleAddResource = (resource) => {
-        setResources([...resourceRequests, resource]);
+        setResourceRequests([...resourceRequests, resource]);
     };
 
     const handleCreateDisaster = async (event) => {
@@ -41,6 +42,10 @@ const CreateDisasterCard = () => {
 
         if (response.failed) navigate("/error");
         else navigate(`/disasters/${response._id}`);
+    };
+
+    const handleResourcesUpdate = (updatedResources) => {
+        setResourceRequests(updatedResources);
     };
 
     return (
@@ -82,18 +87,10 @@ const CreateDisasterCard = () => {
                     </Form.Group>
 
                     {/* Resources */}
-                    <CustomHeader>Resources needed</CustomHeader>
-                    <ListGroup>
-                        {resourceRequests.map((resource, index) => (
-                            <DisasterResourceListEntry
-                                key={index}
-                                type={resource.requestedResourceType}
-                                description={resource.description}
-                                quantityNeeded={resource.quantityNeeded}
-                                urgency={resource.urgencyLevel}
-                            />
-                        ))}
-                    </ListGroup>
+                    <ResourceList
+                        resourceRequests={resourceRequests}
+                        onResourcesUpdate={handleResourcesUpdate}
+                    />
                     <Button variant="success" className="mb-3" onClick={handleShowModal}>
                         Add
                     </Button>

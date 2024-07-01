@@ -29,12 +29,7 @@ const DisasterList = () => {
             {disasters.map((disaster, index) => (
                 <Row>
                     <Col key={index} sm={12} className="mt-5">
-                        <DisasterListEntry
-                            location={disaster.location}
-                            description={disaster.description}
-                            affectedPeople={disaster.estimationPeopleAffected}
-                            resources={disaster.resourceRequests}
-                        />
+                        <DisasterListEntry disaster={disaster} />
                     </Col>
                 </Row>
             ))}

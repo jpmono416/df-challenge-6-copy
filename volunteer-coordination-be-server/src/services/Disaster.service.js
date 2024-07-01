@@ -41,7 +41,9 @@ export default class DisasterService {
     static updateDisasterDetails = async (disasterData) => {
         try {
             const { id, ...updateData } = disasterData;
-            const updatedDisaster = await Disaster.findByIdAndUpdate(id, updateData, { new: true });
+            const updatedDisaster = await Disaster.findByIdAndUpdate(id, updateData, { new: true })
+                .populate("resourceRequests")
+                .exec();
             return updatedDisaster;
         } catch (error) {
             throw new Error("Error updating disaster: " + error.message);

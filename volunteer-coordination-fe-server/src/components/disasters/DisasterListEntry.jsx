@@ -1,20 +1,22 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import CustomCard from "../shared/CustomCard";
 import CustomHeader from "../shared/CustomHeader";
-import ResourceCard from "../resourceRequests/ResourceCard";
 import ResourcesRow from "../resourceRequests/ResourcesRow";
 
-const DisasterListEntry = ({ location, description, affectedPeople, resources }) => {
+const DisasterListEntry = ({ disaster }) => {
     return (
-        <CustomCard>
-            <Row>
-                <CustomHeader>Location: {location}</CustomHeader>
-            </Row>
-            <CustomHeader>Description: {description}</CustomHeader>
-            <CustomHeader>Affected people: {affectedPeople}</CustomHeader>
-            <ResourcesRow resources={resources} />
-        </CustomCard>
+        <Link to={`/disasters/${disaster._id}`} style={{ textDecoration: 'none' }}>
+            <CustomCard>
+                <Row>
+                    <CustomHeader>Location: {disaster.location}</CustomHeader>
+                </Row>
+                <CustomHeader>Description: {disaster.description}</CustomHeader>
+                <CustomHeader>Affected people: {disaster.affectedPeople}</CustomHeader>
+                <ResourcesRow resources={disaster.resourceRequests} />
+            </CustomCard>
+        </Link>
     );
 };
 
