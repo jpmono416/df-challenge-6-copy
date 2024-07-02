@@ -64,24 +64,46 @@ export default class DisasterController {
             // Update the disaster details excluding resourceRequests
             const { resourceRequests, ...disasterData } = req.body;
 
-            // Update each resource request associated with the disaster
-            const updatePromises = resourceRequests.map((request) => {
-                const { _id, ...updateData } = request;
-                return ResourceRequestService.upsertResourceRequest({
-                    id: _id,
-                    ...updateData,
-                });
-            });
-            await Promise.all(updatePromises); // Wait for all upserts to complete
+            // Separate resourceRequests into updates and creations
+            //? This was done with an upsert logic before but it wouldn't generate _ids for new elements.
+            const updates = resourceRequests.filter((request) => request._id);
+            const creations = resourceRequests.filter((request) => !request._id);
 
-            disasterData.resourceRequests = resourceRequests.map((request) => request._id);
-            
+            console.log("Updates:", updates);
+            console.log("Creations:", creations);
+
+            // Process updates
+            const updatePromises = updates.map((request) => {
+                return ResourceRequestService.updateResourceRequest(request);
+            });
+
+            // Process creations
+            const createPromises = creations.map((request) => {
+                return ResourceRequestService.createNewResourceRequest(request);
+            });
+
+            // Wait for all operations to complete
+            const updatedRequests = await Promise.all(updatePromises);
+            const createdRequests = await Promise.all(createPromises);
+
+            console.log("Promises:", updatedRequests, createdRequests);
+
+            // Combine IDs from updated and created requests
+            disasterData.resourceRequests = [...updatedRequests, ...createdRequests].map(
+                (req) => req._id
+            );
+            console.log("Reqs:", disasterData.resourceRequests);
+
             const updatedDisaster = await DisasterService.updateDisasterDetails(disasterData);
             if (!updatedDisaster) return res.status(404).json({ error: "Disaster not found" });
 
-            const disasterWithResourceReqData = await DisasterService.getDisasterById(updatedDisaster._id);
+            // Return the updated disaster with the resource requests (populated)
+            const disasterWithResourceReqData = await DisasterService.getDisasterById(
+                updatedDisaster._id
+            );
             res.status(200).json(disasterWithResourceReqData);
         } catch (error) {
+            console.log(error);
             res.status(500).json({ error: error.message });
         }
     };

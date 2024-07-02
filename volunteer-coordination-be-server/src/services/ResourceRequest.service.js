@@ -30,8 +30,9 @@ export default class ResourceRequestService {
 
     static updateResourceRequest = async (requestData) => {
         try {
-            const { id, ...updateData } = requestData;
-            const updatedRequest = await ResourceRequest.findByIdAndUpdate(id, updateData, {
+            const { _id, ...updateData } = requestData;
+            console.log("Data: ", requestData, requestData);
+            const updatedRequest = await ResourceRequest.findByIdAndUpdate(_id, updateData, {
                 new: true,
             });
             return updatedRequest;
@@ -40,19 +41,23 @@ export default class ResourceRequestService {
         }
     };
 
+    /*
+    //! This method is meant to create new resources when they don't exist but it doesn't produce an _id for them so not in use
     static upsertResourceRequest = async (requestData) => {
         try {
-            const { id, ...updateData } = requestData;
+            const { _id, ...updateData } = requestData;
             const upsertedRequest = await ResourceRequest.findByIdAndUpdate(
-                id,
+                _id,
                 updateData,
                 { new: true, upsert: true }
             );
+            console.log("Upserted:", upsertedRequest);
             return upsertedRequest;
         } catch (error) {
             throw new Error("Error upserting resource request: " + error.message);
         }
     };
+    */
 
     static deleteResourceRequest = async (id) => {
         try {

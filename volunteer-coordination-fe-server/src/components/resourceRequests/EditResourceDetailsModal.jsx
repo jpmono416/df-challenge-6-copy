@@ -32,6 +32,7 @@ const EditResourceDetailsModal = ({
             quantityNeeded,
             quantityFulfilled,
             urgencyLevel,
+            status,
         });
         handleClose();
     };
@@ -42,6 +43,7 @@ const EditResourceDetailsModal = ({
             navigate("/error");
             return;
         }
+        console.log("Delete: ", resource._id);
         onDeleteResource(resource._id);
         handleClose();
     };
@@ -52,7 +54,9 @@ const EditResourceDetailsModal = ({
                 <Modal.Title>Edit Resource request details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {console.log("ID", resource._id)}
                 <ResourceDetailsForm
+                    requestId={1}
                     requestedResourceType={requestedResourceType}
                     description={description}
                     quantityNeeded={quantityNeeded}

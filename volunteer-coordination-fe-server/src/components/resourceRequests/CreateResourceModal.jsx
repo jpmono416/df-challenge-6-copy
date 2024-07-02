@@ -9,7 +9,7 @@ const CreateResourceModal = ({ show, handleClose, addResource }) => {
     const [description, setDescription] = useState("");
     const [quantityNeeded, setQuantityNeeded] = useState(0);
     const [quantityFulfilled, setQuantityFulfilled] = useState(0);
-    const [status, setStatus] = useState("Status");
+    const [status, setStatus] = useState("Still Needed"); // Default value for status
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -20,6 +20,7 @@ const CreateResourceModal = ({ show, handleClose, addResource }) => {
             quantityNeeded,
             quantityFulfilled,
             urgencyLevel: urgencyLevel === "Urgency" ? "Low" : urgencyLevel,
+            status,
         });
 
         // Reset form
@@ -37,6 +38,7 @@ const CreateResourceModal = ({ show, handleClose, addResource }) => {
             </Modal.Header>
             <Modal.Body>
                 <ResourceDetailsForm
+                    requestId={-1}
                     requestedResourceType={requestedResourceType}
                     description={description}
                     quantityNeeded={quantityNeeded}

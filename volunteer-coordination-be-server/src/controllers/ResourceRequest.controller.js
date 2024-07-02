@@ -1,5 +1,5 @@
 import ResourceRequestService from "../services/ResourceRequest.service.js";
-import DisasterService from "../services/Disaster.service.js"
+import DisasterService from "../services/Disaster.service.js";
 export default class ResourceRequestController {
     static getAllResourceRequests = async (req, res) => {
         try {
@@ -35,6 +35,7 @@ export default class ResourceRequestController {
 
     static deleteResourceRequest = async (req, res) => {
         try {
+            console.log(req.body);
             if (!req.body || !req.body.id)
                 return res.status(400).json({ error: "Invalid resource request ID" });
 

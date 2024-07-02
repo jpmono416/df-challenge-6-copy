@@ -3,6 +3,7 @@ import { Form, DropdownButton, Dropdown } from "react-bootstrap";
 import UrgencyDropdown from "../shared/UrgencyDropdown";
 
 const ResourceDetailsForm = ({
+    requestId,
     requestedResourceType,
     description,
     quantityNeeded,
@@ -17,7 +18,6 @@ const ResourceDetailsForm = ({
     setStatus,
     isEditing,
 }) => {
-    
     return (
         <Form>
             <Form.Group controlId="resourceType">
@@ -42,9 +42,9 @@ const ResourceDetailsForm = ({
                     <Dropdown.Item eventKey="Other">Other</Dropdown.Item>
                 </DropdownButton>
             </Form.Group>
-            
+
             {/* Only show the status if request already exists and is being edited */}
-            {isEditing && (
+            {requestId && requestId !== -1 && (
                 <Form.Group controlId="status">
                     <Form.Label>Status</Form.Label>
 

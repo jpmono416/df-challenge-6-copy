@@ -64,6 +64,15 @@ export default class DisasterService {
 
     static updateDisasterDetails = async (disasterData, token) => {
         try {
+            console.log("Disaster data: ", disasterData);
+            
+            // Add createdBy
+            disasterData.resourceRequests = disasterData.resourceRequests.map((request) => ({
+                ...request,
+                requestedBy: disasterData.createdBy,
+                disasterId: disasterData.id,
+            }));
+
             const response = await axios.put(`${Config.backendUrl()}/disasters`, disasterData, {
                 headers: { Authorization: `Bearer ${token}` },
             });

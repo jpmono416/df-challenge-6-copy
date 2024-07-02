@@ -1,23 +1,35 @@
 import React from "react";
 import { ListGroup, Badge } from "react-bootstrap";
+import StatusBadge from "../shared/StatusBadge";
 
-const ResourceListEntry = ({ type, description, quantityNeeded, urgency, onClick }) => {
+const ResourceListEntry = ({
+    type,
+    description,
+    quantityNeeded,
+    quantityFulfilled,
+    urgency,
+    status,
+    onClick,
+}) => {
     return (
         <ListGroup.Item
             className="d-flex justify-content-between align-items-start"
             onClick={onClick}
-             style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer" }}
+            key={description}
         >
             <div className="ms-2 me-auto">
                 <div className="fw-bold">{type}</div>
-                {description}
+                <label>Description: {description}</label>
+                <br />
+                <label>
+                    {quantityFulfilled}/{quantityNeeded} fulfilled
+                </label>
+                <p>
+                    Priority: <StatusBadge status={urgency} />
+                </p>
             </div>
-            <Badge bg="primary" pill>
-                {quantityNeeded}
-            </Badge>
-            <Badge bg="warning" pill>
-                {urgency}
-            </Badge>
+            <StatusBadge status={status} />
         </ListGroup.Item>
     );
 };

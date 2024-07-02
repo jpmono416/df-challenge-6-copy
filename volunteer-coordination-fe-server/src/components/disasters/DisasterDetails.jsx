@@ -154,9 +154,15 @@ const DisasterDetails = () => {
                     Last Updated: {new Date(disaster.updatedAt).toLocaleDateString("en-GB")}
                 </Form.Text>
                 <ResourcesRow resources={disaster.resourceRequests} />
-                <Button variant="info" onClick={() => setIsEditing(true)}>
-                    Edit
-                </Button>
+
+                <div style={{ marginTop: "10px" }}>
+                    {disaster.createdBy === userDetails._id && (
+                        <Button variant="info" onClick={() => setIsEditing(true)}>
+                            Edit
+                        </Button>
+                    )}
+                </div>
+
                 {isTrackingDisaster ? (
                     <UntrackDisasterButton onClick={handleUntrackDisaster} />
                 ) : (

@@ -15,11 +15,13 @@ const ResourceList = ({ resourceRequests, onResourcesUpdate, handleAddResource }
 
     const handleShowEditModal = (resource) => {
         setSelectedResource(resource);
+        console.log("Selected resource: ", resource);
         setShowEditModal(true);
     };
     const handleCloseEditModal = () => setShowEditModal(false);
 
     const handleUpdateResource = (resourceId, updatedDetails) => {
+        console.log("Updated details: ", updatedDetails);
         const updatedResources = resourceRequests.map((resource) =>
             resource._id === resourceId ? { ...resource, ...updatedDetails } : resource
         );
@@ -35,13 +37,16 @@ const ResourceList = ({ resourceRequests, onResourcesUpdate, handleAddResource }
         <>
             <CustomHeader>Resources needed</CustomHeader>
             <ListGroup>
+                {console.log("MAP", resourceRequests)}
                 {resourceRequests.map((resource) => (
                     <ResourceListEntry
                         key={resource._id}
                         type={resource.requestedResourceType}
                         description={resource.description}
                         quantityNeeded={resource.quantityNeeded}
+                        quantityFulfilled={resource.quantityFulfilled}
                         urgency={resource.urgencyLevel}
+                        status={resource.status}
                         onClick={() => handleShowEditModal(resource)}
                     />
                 ))}
