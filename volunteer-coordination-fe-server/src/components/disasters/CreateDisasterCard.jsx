@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
@@ -21,6 +21,10 @@ const CreateDisasterCard = () => {
     const { authToken, userDetails } = useContext(AuthContext); // Replace with your login logic
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = "Report disaster";
+    }, []);
 
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);

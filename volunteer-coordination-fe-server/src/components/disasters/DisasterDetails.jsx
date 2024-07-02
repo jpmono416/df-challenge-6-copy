@@ -31,6 +31,7 @@ const DisasterDetails = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        document.title = "Disaster Details";
         const fetchDisaster = async () => {
             const result = await DisasterService.getDisasterById(id);
             if (result.failed) {

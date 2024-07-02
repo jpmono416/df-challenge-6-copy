@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CustomCard from "./CustomCard";
 
 const InternalError = () => {
+    useEffect(() => {
+        document.title = "HelpHive - Error";
+    }, []);
     return (
         <CustomCard>
             <h1>Internal Error</h1>

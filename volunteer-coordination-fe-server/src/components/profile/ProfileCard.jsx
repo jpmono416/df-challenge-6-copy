@@ -13,6 +13,7 @@ const ProfileCard = () => {
     const { userDetails, updateUserDetails } = useContext(AuthContext);
 
     useEffect(() => {
+        document.title = "Profile";
         const fetchUserDetails = async () => {
             if (userDetails && userDetails._id) {
                 const response = await UserService.getUserById(userDetails._id);

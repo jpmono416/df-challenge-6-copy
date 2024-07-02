@@ -10,6 +10,7 @@ const DisasterList = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        document.title = "Active Disasters";
         const fetchDisasters = async () => {
             const result = await DisasterService.getAllActiveDisasters();
             if (!result.failed) setDisasters(result);

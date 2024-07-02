@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Form, Button, Dropdown, DropdownButton, OverlayTrigger, Tooltip } from "react-bootstrap";
 import CustomContainer from "../shared/CustomContainer";
 import CustomCard from "../shared/CustomCard";
@@ -20,7 +20,9 @@ const EditDisasterCard = ({
     handleDeleteDisaster,
     setIsEditing,
 }) => {
-
+  useEffect(() => {
+      document.title = "Edit disaster";
+  }, []);
     const handleAddResource = (resource) => {
         handleResourcesUpdate([...resourceRequests, resource]);
     };

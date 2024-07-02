@@ -10,6 +10,7 @@ const MainSection = () => {
     const [disasterCount, setDisasterCount] = useState(0);
 
     useEffect(() => {
+        document.title = "HelpHive - Home";
         const fetchDisasterCount = async () => {
             const result = await DisasterService.getActiveDisastersCount();
             if (!result.failed) setDisasterCount(result);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, Form, Button, Alert } from "react-bootstrap";
 import { AuthContext } from "../../auth/AuthProvider";
@@ -20,6 +20,9 @@ const LoginCard = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        document.title = "HelpHive - Login";
+    }, []);
     const handleSwitchForm = () => {
         setName("");
         setIsRegister(!isRegister);
