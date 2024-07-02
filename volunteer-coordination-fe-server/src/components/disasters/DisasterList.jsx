@@ -28,7 +28,7 @@ const DisasterList = () => {
             <h1 className="text-center">Active Disasters</h1>
             {disasters.map((disaster, index) => (
                 <Row>
-                    <Col key={index} sm={12} className="mt-5">
+                    <Col key={index} sm={12} className="mb-5">
                         <DisasterListEntry disaster={disaster} />
                     </Col>
                 </Row>

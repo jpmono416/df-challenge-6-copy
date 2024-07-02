@@ -53,11 +53,6 @@ const CreateDisasterCard = () => {
         <CustomContainer>
             <CustomCard>
                 <CustomTitle>Report a disaster</CustomTitle>
-                <Row className="justify-content-center">
-                    <div className="d-flex justify-content-center" style={{ marginTop: "25px" }}>
-                        <CustomHeader>Create a new disaster</CustomHeader>
-                    </div>
-                </Row>
                 <Form onSubmit={handleCreateDisaster}>
                     {/* Disaster details */}
                     <Form.Group controlId="formLocation">

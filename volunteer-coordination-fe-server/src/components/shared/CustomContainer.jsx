@@ -5,8 +5,9 @@ const CustomContainer = ({ children }) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                height: "70vh",
                 width: "100vw",
+                marginBottom: "2rem",
+                marginTop: "2rem",
             }}
         >
             <div style={{ width: "70vw" }}>{children}</div>

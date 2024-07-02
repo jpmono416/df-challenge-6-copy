@@ -109,6 +109,15 @@ const DisasterDetails = () => {
         setResourceRequests(updatedResources);
     };
 
+    const handleDeleteDisaster = async () => {
+        const response = await DisasterService.deleteDisaster(disaster._id, authToken);
+        if (response.failed) {
+            navigate("/error");
+            return;
+        }
+        navigate("/disasters");
+    };
+
     if (!disaster) {
         return <div>Loading...</div>;
     }
@@ -125,6 +134,7 @@ const DisasterDetails = () => {
             setEstimationPeopleAffected={setEstimationPeopleAffected}
             handleSave={handleSave}
             handleResourcesUpdate={handleResourcesUpdate}
+            handleDeleteDisaster={handleDeleteDisaster}
             setIsEditing={setIsEditing}
             setStatus={setStatus}
         />

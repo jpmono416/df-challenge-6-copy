@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Dropdown, DropdownButton } from "react-bootstrap";
+import { Form, Button, Dropdown, DropdownButton, OverlayTrigger, Tooltip } from "react-bootstrap";
 import CustomContainer from "../shared/CustomContainer";
 import CustomCard from "../shared/CustomCard";
 import CustomTitle from "../shared/CustomTitle";
@@ -17,6 +17,7 @@ const EditDisasterCard = ({
     setStatus,
     handleSave,
     handleResourcesUpdate,
+    handleDeleteDisaster,
     setIsEditing,
 }) => {
     return (
@@ -67,12 +68,46 @@ const EditDisasterCard = ({
                         resourceRequests={resourceRequests}
                         onResourcesUpdate={handleResourcesUpdate}
                     />
-                    <Button variant="primary" type="submit">
-                        Save
-                    </Button>
-                    <Button variant="secondary" onClick={() => setIsEditing(false)}>
-                        Cancel
-                    </Button>
+                    <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1rem" }}>
+                        <Button
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                marginRight: "0.5rem",
+                            }}
+                            variant="primary"
+                            type="submit"
+                        >
+                            Save
+                        </Button>
+
+                        {/* Delete a disaster from the Database */}
+                        {status === "Cancelled" && (
+                            <OverlayTrigger
+                                placement="bottom"
+                                overlay={
+                                    <Tooltip id="tooltip-submit">
+                                        Only delete the disaster if it was created by mistake.
+                                    </Tooltip>
+                                }
+                            >
+                                <Button
+                                    style={{ margin: "0 0.5rem" }}
+                                    variant="danger"
+                                    onClick={() => handleDeleteDisaster()}
+                                >
+                                    Delete
+                                </Button>
+                            </OverlayTrigger>
+                        )}
+                        <Button
+                            style={{ marginLeft: "0.5rem" }}
+                            variant="secondary"
+                            onClick={() => setIsEditing(false)}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
                 </Form>
             </CustomCard>
         </CustomContainer>

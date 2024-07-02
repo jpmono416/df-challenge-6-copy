@@ -30,7 +30,7 @@ const App = () => {
         <BrowserRouter>
             <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
                 <AppNavbar />
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden" }}>
                     <Routes>
                         <Route path="/" element={<MainSection />} />
                         <Route path="/login" element={<LoginCard />} />
