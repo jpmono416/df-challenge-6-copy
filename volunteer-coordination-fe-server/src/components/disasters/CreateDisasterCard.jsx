@@ -1,17 +1,15 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Row, Form, Button, OverlayTrigger, Tooltip, ListGroup } from "react-bootstrap";
+import { Form, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import CustomCard from "../shared/CustomCard";
 import CustomContainer from "../shared/CustomContainer";
-import CustomHeader from "../shared/CustomHeader";
-import ResourceListEntry from "../resourceRequests/ResourceListEntry.jsx";
-import CreateResourceModal from "../resourceRequests/CreateResourceModal.jsx";
+import CreateResourceModal from "../resourceRequests/CreateResourceModal";
 import DisasterService from "../../service/Disaster.service.js";
 
-import { AuthContext } from "../../auth/AuthProvider.jsx";
-import ResourceList from "../resourceRequests/ResourceList.jsx";
-import CustomTitle from "../shared/CustomTitle.jsx";
+import { AuthContext } from "../../auth/AuthProvider";
+import ResourceList from "../resourceRequests/ResourceList";
+import CustomTitle from "../shared/CustomTitle";
 
 const CreateDisasterCard = () => {
     const [location, setLocation] = useState("");
@@ -87,14 +85,7 @@ const CreateDisasterCard = () => {
                     <ResourceList
                         resourceRequests={resourceRequests}
                         onResourcesUpdate={handleResourcesUpdate}
-                    />
-                    <Button variant="success" className="mb-3" onClick={handleShowModal}>
-                        Add
-                    </Button>
-                    <CreateResourceModal
-                        show={showModal}
-                        handleClose={handleCloseModal}
-                        addResource={handleAddResource}
+                        handleAddResource={handleAddResource}
                     />
 
                     {/* Submit */}

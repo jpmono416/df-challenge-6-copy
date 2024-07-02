@@ -20,6 +20,10 @@ const EditDisasterCard = ({
     handleDeleteDisaster,
     setIsEditing,
 }) => {
+
+    const handleAddResource = (resource) => {
+        handleResourcesUpdate([...resourceRequests, resource]);
+    };
     return (
         <CustomContainer>
             <CustomCard>
@@ -67,6 +71,7 @@ const EditDisasterCard = ({
                     <ResourceList
                         resourceRequests={resourceRequests}
                         onResourcesUpdate={handleResourcesUpdate}
+                        handleAddResource={handleAddResource}
                     />
                     <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1rem" }}>
                         <Button

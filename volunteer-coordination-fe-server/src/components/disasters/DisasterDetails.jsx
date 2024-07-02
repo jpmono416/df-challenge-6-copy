@@ -102,10 +102,12 @@ const DisasterDetails = () => {
         }
         // Return to the disaster details
         setDisaster(response);
+        console.log("Response: ", response);
         setIsEditing(false);
     };
 
     const handleResourcesUpdate = (updatedResources) => {
+        console.log("Updated resources: ", updatedResources);
         setResourceRequests(updatedResources);
     };
 

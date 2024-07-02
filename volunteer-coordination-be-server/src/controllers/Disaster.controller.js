@@ -63,24 +63,24 @@ export default class DisasterController {
 
             // Update the disaster details excluding resourceRequests
             const { resourceRequests, ...disasterData } = req.body;
-            const updatedDisaster = await DisasterService.updateDisasterDetails(disasterData);
-
-            if (!updatedDisaster) return res.status(404).json({ error: "Disaster not found" });
 
             // Update each resource request associated with the disaster
             const updatePromises = resourceRequests.map((request) => {
-                const { _id, ...updateFields } = request;
-                return ResourceRequestService.updateResourceRequest({
+                const { _id, ...updateData } = request;
+                return ResourceRequestService.upsertResourceRequest({
                     id: _id,
-                    ...updateFields,
+                    ...updateData,
                 });
             });
-            await Promise.all(updatePromises); // Wait for all updates to complete
+            await Promise.all(updatePromises); // Wait for all upserts to complete
 
-            // Refresh to return resourceRequests with the disaster
-            const refreshedDisaster = await DisasterService.getDisasterById(updatedDisaster._id);
+            disasterData.resourceRequests = resourceRequests.map((request) => request._id);
+            
+            const updatedDisaster = await DisasterService.updateDisasterDetails(disasterData);
+            if (!updatedDisaster) return res.status(404).json({ error: "Disaster not found" });
 
-            res.status(200).json(refreshedDisaster);
+            const disasterWithResourceReqData = await DisasterService.getDisasterById(updatedDisaster._id);
+            res.status(200).json(disasterWithResourceReqData);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

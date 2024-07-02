@@ -40,6 +40,20 @@ export default class ResourceRequestService {
         }
     };
 
+    static upsertResourceRequest = async (requestData) => {
+        try {
+            const { id, ...updateData } = requestData;
+            const upsertedRequest = await ResourceRequest.findByIdAndUpdate(
+                id,
+                updateData,
+                { new: true, upsert: true }
+            );
+            return upsertedRequest;
+        } catch (error) {
+            throw new Error("Error upserting resource request: " + error.message);
+        }
+    };
+
     static deleteResourceRequest = async (id) => {
         try {
             const result = await ResourceRequest.findByIdAndDelete(id);
