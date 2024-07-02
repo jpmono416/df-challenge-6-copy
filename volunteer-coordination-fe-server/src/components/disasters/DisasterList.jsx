@@ -26,9 +26,9 @@ const DisasterList = () => {
     return (
         <CustomContainer>
             <h1 className="text-center">Active Disasters</h1>
-            {disasters.map((disaster, index) => (
-                <Row>
-                    <Col key={index} sm={12} className="mb-5">
+            {disasters.map((disaster) => (
+                <Row key={disaster._id}>
+                    <Col sm={12} className="mb-5">
                         <DisasterListEntry disaster={disaster} />
                     </Col>
                 </Row>

@@ -8,19 +8,21 @@ const ResourceDetailsForm = ({
     quantityNeeded,
     quantityFulfilled,
     urgencyLevel,
+    status,
     setRequestedResourceType,
     setDescription,
     setQuantityNeeded,
     setQuantityFulfilled,
     setUrgencyLevel,
+    setStatus,
+    isEditing,
 }) => {
     
     return (
-        
         <Form>
             <Form.Group controlId="resourceType">
                 <Form.Label>Type</Form.Label>
-                
+
                 <DropdownButton
                     id="dropdown-resource-type"
                     title={requestedResourceType || "Type"}
@@ -39,8 +41,25 @@ const ResourceDetailsForm = ({
                     <Dropdown.Item eventKey="Volunteers">Volunteers</Dropdown.Item>
                     <Dropdown.Item eventKey="Other">Other</Dropdown.Item>
                 </DropdownButton>
-                
             </Form.Group>
+            
+            {/* Only show the status if request already exists and is being edited */}
+            {isEditing && (
+                <Form.Group controlId="status">
+                    <Form.Label>Status</Form.Label>
+
+                    <DropdownButton
+                        id="dropdown-disaster-status"
+                        title={status || "Status"}
+                        onSelect={setStatus}
+                        variant="outline-secondary"
+                    >
+                        <Dropdown.Item eventKey="Still Needed">Still Needed</Dropdown.Item>
+                        <Dropdown.Item eventKey="Goal Reached">Goal Reached</Dropdown.Item>
+                        <Dropdown.Item eventKey="Cancelled">Cancelled</Dropdown.Item>
+                    </DropdownButton>
+                </Form.Group>
+            )}
             <Form.Group controlId="resourceDescription">
                 <Form.Label>Description</Form.Label>
                 <Form.Control

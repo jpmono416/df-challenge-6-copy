@@ -7,14 +7,13 @@ import CustomContainer from "../shared/CustomContainer";
 import CustomHeader from "../shared/CustomHeader";
 import DisasterService from "../../service/Disaster.service.js";
 import ResourcesRow from "../resourceRequests/ResourcesRow.jsx";
-
-import { AuthContext } from "../../auth/AuthProvider.jsx";
-import ResourceList from "../resourceRequests/ResourceList.jsx";
 import CustomTitle from "../shared/CustomTitle.jsx";
 import UserService from "../../service/User.service.js";
 import TrackDisasterButton from "./TrackDisasterButton.jsx";
 import UntrackDisasterButton from "./UntrackDisasterButton.jsx";
 import EditDisasterCard from "./EditDisasterCard.jsx";
+
+import { AuthContext } from "../../auth/AuthProvider.jsx";
 
 const DisasterDetails = () => {
     const { id } = useParams();
@@ -102,12 +101,10 @@ const DisasterDetails = () => {
         }
         // Return to the disaster details
         setDisaster(response);
-        console.log("Response: ", response);
         setIsEditing(false);
     };
 
     const handleResourcesUpdate = (updatedResources) => {
-        console.log("Updated resources: ", updatedResources);
         setResourceRequests(updatedResources);
     };
 

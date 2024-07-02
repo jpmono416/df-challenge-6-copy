@@ -1,13 +1,29 @@
-import { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import ResourceDetailsForm from "./ResourceDetailsForm";
+import ResourceService from "../../service/Resource.service";
 
-const EditResourceDetailsModal = ({ show, handleClose, resource, onUpdateResource }) => {
+import { AuthContext } from "../../auth/AuthProvider.jsx";
+
+const EditResourceDetailsModal = ({
+    show,
+    handleClose,
+    resource,
+    onUpdateResource,
+    onDeleteResource,
+}) => {
     const [urgencyLevel, setUrgencyLevel] = useState(resource.urgencyLevel || "Urgency");
-    const [requestedResourceType, setRequestedResourceType] = useState(resource.requestedResourceType || "");
+    const [requestedResourceType, setRequestedResourceType] = useState(
+        resource.requestedResourceType || ""
+    );
     const [description, setDescription] = useState(resource.description || "");
     const [quantityNeeded, setQuantityNeeded] = useState(resource.quantityNeeded || "");
     const [quantityFulfilled, setQuantityFulfilled] = useState(resource.quantityFulfilled || "");
+    const [status, setStatus] = useState(resource.status || "Status");
+
+    const { authToken } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSave = () => {
         onUpdateResource(resource._id, {
@@ -17,6 +33,16 @@ const EditResourceDetailsModal = ({ show, handleClose, resource, onUpdateResourc
             quantityFulfilled,
             urgencyLevel,
         });
+        handleClose();
+    };
+
+    const handleDeleteResourceRequest = async () => {
+        const response = await ResourceService.deleteResourceRequest(resource._id, authToken);
+        if (response.failed) {
+            navigate("/error");
+            return;
+        }
+        onDeleteResource(resource._id);
         handleClose();
     };
 
@@ -32,17 +58,39 @@ const EditResourceDetailsModal = ({ show, handleClose, resource, onUpdateResourc
                     quantityNeeded={quantityNeeded}
                     quantityFulfilled={quantityFulfilled}
                     urgencyLevel={urgencyLevel}
+                    status={status}
                     setRequestedResourceType={setRequestedResourceType}
                     setDescription={setDescription}
                     setQuantityNeeded={setQuantityNeeded}
                     setQuantityFulfilled={setQuantityFulfilled}
                     setUrgencyLevel={setUrgencyLevel}
+                    setStatus={setStatus}
+                    isEditing={true}
                 />
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={handleSave}>
                     Update
                 </Button>
+                {/* Delete a resource request from the Database */}
+                {status === "Cancelled" && (
+                    <OverlayTrigger
+                        placement="bottom"
+                        overlay={
+                            <Tooltip id="tooltip-submit">
+                                Only delete the request if it was created by mistake.
+                            </Tooltip>
+                        }
+                    >
+                        <Button
+                            style={{ margin: "0 0.5rem" }}
+                            variant="danger"
+                            onClick={() => handleDeleteResourceRequest()}
+                        >
+                            Delete
+                        </Button>
+                    </OverlayTrigger>
+                )}
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>

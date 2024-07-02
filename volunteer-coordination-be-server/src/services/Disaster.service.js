@@ -58,4 +58,15 @@ export default class DisasterService {
             throw new Error("Error deleting disaster: " + error.message);
         }
     };
+
+    static removeResourceRequestFromDisaster = async (disasterId, requestId) => {
+        try {
+            const result = await Disaster.findByIdAndUpdate(disasterId, {
+                $pull: { resourceRequests: requestId },
+            });
+            return result;
+        } catch (error) {
+            throw new Error("Error removing resource request from disaster: " + error.message);
+        }
+    };
 }

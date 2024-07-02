@@ -9,6 +9,7 @@ const CreateResourceModal = ({ show, handleClose, addResource }) => {
     const [description, setDescription] = useState("");
     const [quantityNeeded, setQuantityNeeded] = useState(0);
     const [quantityFulfilled, setQuantityFulfilled] = useState(0);
+    const [status, setStatus] = useState("Status");
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -41,11 +42,14 @@ const CreateResourceModal = ({ show, handleClose, addResource }) => {
                     quantityNeeded={quantityNeeded}
                     quantityFulfilled={quantityFulfilled}
                     urgencyLevel={urgencyLevel}
+                    status={status}
                     setRequestedResourceType={setRequestedResourceType}
                     setDescription={setDescription}
                     setQuantityNeeded={setQuantityNeeded}
                     setQuantityFulfilled={setQuantityFulfilled}
                     setUrgencyLevel={setUrgencyLevel}
+                    setStatus={setStatus}
+                    isEditing={false}
                 />
             </Modal.Body>
             <Modal.Footer>

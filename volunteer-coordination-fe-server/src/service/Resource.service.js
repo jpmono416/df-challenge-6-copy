@@ -2,18 +2,19 @@ import axios from "axios";
 import Config from "../config/Config.js";
 
 class ResourceService {
-    static CreateResourceRequest = async (resourceDetails, token) => {
+    static deleteResourceRequest = async (resourceId, token) => {
         try {
-            const response = await axios.post(`${Config.backendUrl()}/resources`, resourceDetails, {
+            const response = await axios.delete(`${Config.backendUrl()}/resources`, {
+                data: { id: resourceId },
                 headers: { Authorization: `Bearer ${token}` },
             });
             return response.data;
         } catch (error) {
-            console.error("Error creating resource:", error);
+            console.error("Error deleting resource:", error);
             return {
                 failed: true,
                 message:
-                    "An unexpected error occurred while creating the resource. Please try again.",
+                    "An unexpected error occurred while deleting the resource. Please try again.",
             };
         }
     };

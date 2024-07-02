@@ -1,5 +1,5 @@
 import ResourceRequestService from "../services/ResourceRequest.service.js";
-
+import DisasterService from "../services/Disaster.service.js"
 export default class ResourceRequestController {
     static getAllResourceRequests = async (req, res) => {
         try {
@@ -37,8 +37,13 @@ export default class ResourceRequestController {
         try {
             if (!req.body || !req.body.id)
                 return res.status(400).json({ error: "Invalid resource request ID" });
+
             const result = await ResourceRequestService.deleteResourceRequest(req.body.id);
             if (!result) return res.status(404).json({ error: "Resource request not found" });
+
+            // Remove the resource request from the disaster's resource requests list
+            DisasterService.removeResourceRequestFromDisaster(result.disasterId, result._id);
+
             res.status(200).json({ message: "Resource request successfully deleted" });
         } catch (error) {
             res.status(500).json({ error: error.message });

@@ -54,7 +54,7 @@ const EditDisasterCard = ({
                             onChange={(e) => setEstimationPeopleAffected(e.target.value)}
                         />
                     </Form.Group>
-                    <Form.Group controlId="resourceType">
+                    <Form.Group controlId="status">
                         <Form.Label>Status</Form.Label>
 
                         <DropdownButton
