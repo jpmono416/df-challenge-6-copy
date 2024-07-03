@@ -2,9 +2,14 @@ import axios from "axios";
 import Config from "../config/Config.js";
 
 export default class DisasterService {
+
+    static trimTrailingSlash = (url) => {
+        return url.endsWith("/") ? url.slice(0, -1) : url;
+    };
+
     static getAllActiveDisasters = async () => {
         try {
-            const response = await axios.get(`${Config.backendUrl()}disasters`);
+            const response = await axios.get(`${DisasterService.trimTrailingSlash(Config.backendUrl())}disasters`);
             return response.data;
         } catch (error) {
             return {
@@ -16,7 +21,7 @@ export default class DisasterService {
 
     static getDisasterById = async (disasterId) => {
         try {
-            const response = await axios.get(`${Config.backendUrl()}disasters/${disasterId}`);
+            const response = await axios.get(`${DisasterService.trimTrailingSlash(Config.backendUrl())}disasters/${disasterId}`);
             return response.data;
         } catch (error) {
             return {
@@ -29,7 +34,7 @@ export default class DisasterService {
 
     static getActiveDisastersCount = async () => {
         try {
-            const response = await axios.get(`${Config.backendUrl()}disasters/count`);
+            const response = await axios.get(`${DisasterService.trimTrailingSlash(Config.backendUrl())}disasters/count`);
             return response.data.count;
         } catch (error) {
             return {
@@ -48,7 +53,7 @@ export default class DisasterService {
                 requestedBy: disasterData.createdBy,
             }));
 
-            const response = await axios.post(`${Config.backendUrl()}disasters`, disasterData, {
+            const response = await axios.post(`${DisasterService.trimTrailingSlash(Config.backendUrl())}disasters`, disasterData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -73,7 +78,7 @@ export default class DisasterService {
                 disasterId: disasterData.id,
             }));
 
-            const response = await axios.put(`${Config.backendUrl()}disasters`, disasterData, {
+            const response = await axios.put(`${DisasterService.trimTrailingSlash(Config.backendUrl())}disasters`, disasterData, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             return response.data;
@@ -88,7 +93,7 @@ export default class DisasterService {
 
     static deleteDisaster = async (disasterId, token) => {
         try {
-            const response = await axios.delete(`${Config.backendUrl()}disasters`, {
+            const response = await axios.delete(`${DisasterService.trimTrailingSlash(Config.backendUrl())}disasters`, {
                 data: { id: disasterId },
                 headers: { Authorization: `Bearer ${token}` },
             });
