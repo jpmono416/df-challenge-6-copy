@@ -24,7 +24,7 @@ const ProfileCard = () => {
         };
 
         fetchUserDetails();
-    }, [userDetails.userId]);
+    }, [userDetails._id]);
 
     return (
         <CustomContainer>
