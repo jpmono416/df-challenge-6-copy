@@ -8,6 +8,7 @@ import UserService from "../../service/User.service";
 
 import { AuthContext } from "../../auth/AuthProvider";
 import DisasterPreviewRow from "../disasters/DisasterPreviewRow";
+import PageTitle from "../shared/PageTitle";
 
 const ProfileCard = () => {
     const { userDetails, updateUserDetails } = useContext(AuthContext);
@@ -28,9 +29,9 @@ const ProfileCard = () => {
 
     return (
         <CustomContainer>
-            <CustomCard>
-                <CustomTitle>Profile</CustomTitle>
-                <CustomHeader>Name: {userDetails.name}</CustomHeader>
+            <PageTitle title="Profile" />
+            <CustomCard className="mainCard">
+                <CustomTitle>{userDetails.name}</CustomTitle>
                 <CustomHeader>Email: {userDetails.email}</CustomHeader>
                 {userDetails.roles && userDetails.roles.length > 0 && (
                     <CustomHeader>Roles: {userDetails.roles.join(", ")}</CustomHeader>

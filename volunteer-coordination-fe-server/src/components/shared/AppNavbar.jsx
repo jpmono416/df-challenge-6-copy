@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Button } from "react-bootstrap";
+import CustomHeader from "./CustomHeader.jsx";
 import { AuthContext } from "../../auth/AuthProvider.jsx";
 
 const AppNavbar = () => {
@@ -13,23 +14,29 @@ const AppNavbar = () => {
     };
 
     return (
-        <Navbar bg="dark" expand="lg" className="text-white px-5">
-            <Navbar.Brand href="#" className="text-white px-1">
-                Logo
+        <Navbar expand="lg" className="text-white px-5" style={{ backgroundColor: "#D97706" }}>
+            <Navbar.Brand className="text-white px-1">
+                <Nav.Link as={Link} to="/">
+                    <img
+                        src="../../../assets/logo.png" // Replace with the actual path to your image
+                        alt="Logo"
+                        style={{ maxHeight: "60px" }}
+                    />
+                </Nav.Link>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                     <Nav.Link as={Link} to="/" className="text-white px-5">
-                        Home
+                        <CustomHeader>Home</CustomHeader>
                     </Nav.Link>
                     <Nav.Link as={Link} to="/Disasters" className="text-white px-5">
-                        Ongoing disasters
+                        <CustomHeader>Ongoing disasters</CustomHeader>
                     </Nav.Link>
                     {authToken !== "" ? (
                         <>
                             <Nav.Link as={Link} to="/Profile" className="text-white px-5">
-                                Profile
+                                <CustomHeader>Profile</CustomHeader>
                             </Nav.Link>
                             <Nav.Link
                                 as={Button}
@@ -37,12 +44,12 @@ const AppNavbar = () => {
                                 className="text-white px-5"
                                 style={{ cursor: "pointer" }}
                             >
-                                Logout
+                                <CustomHeader>Logout</CustomHeader>
                             </Nav.Link>
                         </>
                     ) : (
                         <Nav.Link as={Link} to="/login" className="text-white px-1">
-                            Login
+                            <CustomHeader>Login</CustomHeader>
                         </Nav.Link>
                     )}
                 </Nav>

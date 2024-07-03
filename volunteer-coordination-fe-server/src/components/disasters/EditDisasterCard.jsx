@@ -1,8 +1,8 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Form, Button, Dropdown, DropdownButton, OverlayTrigger, Tooltip } from "react-bootstrap";
 import CustomContainer from "../shared/CustomContainer";
 import CustomCard from "../shared/CustomCard";
-import CustomTitle from "../shared/CustomTitle";
+import PageTitle from "../shared/PageTitle";
 import ResourceList from "../resourceRequests/ResourceList";
 
 const EditDisasterCard = ({
@@ -20,16 +20,16 @@ const EditDisasterCard = ({
     handleDeleteDisaster,
     setIsEditing,
 }) => {
-  useEffect(() => {
-      document.title = "Edit disaster";
-  }, []);
+    useEffect(() => {
+        document.title = "Edit disaster";
+    }, []);
     const handleAddResource = (resource) => {
         handleResourcesUpdate([...resourceRequests, resource]);
     };
     return (
         <CustomContainer>
-            <CustomCard>
-                <CustomTitle>Edit details</CustomTitle>
+            <PageTitle title="Edit disaster details" />
+            <CustomCard className="mainCard">
                 <Form onSubmit={handleSave}>
                     <Form.Group controlId="formLocation">
                         <Form.Label>Location</Form.Label>
@@ -82,7 +82,7 @@ const EditDisasterCard = ({
                                 justifyContent: "flex-end",
                                 marginRight: "0.5rem",
                             }}
-                            variant="primary"
+                            className="secondaryButton"
                             type="submit"
                         >
                             Save

@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import DisasterListEntry from "./DisasterListEntry";
 import DisasterService from "../../service/Disaster.service";
 import CustomContainer from "../shared/CustomContainer";
+import PageTitle from "../shared/PageTitle";
 
 const DisasterList = () => {
     const [disasters, setDisasters] = useState([]);
@@ -14,7 +15,7 @@ const DisasterList = () => {
         const fetchDisasters = async () => {
             const result = await DisasterService.getAllActiveDisasters();
             console.log(result);
-            if (!result.failed) {
+            if (!result?.failed) {
                 console.log("Coming in: ", result);
                 setDisasters(result);
             } else {
@@ -32,11 +33,14 @@ const DisasterList = () => {
 
     return (
         <CustomContainer>
-            <h1 className="text-center">Active Disasters</h1>
-            {disasters.map((disaster) => (
+            <PageTitle title="Active Disasters" />
+            {disasters.map((disaster, index) => (
                 <Row key={disaster._id}>
                     <Col sm={12} className="mb-5">
-                        <DisasterListEntry disaster={disaster} />
+                        <DisasterListEntry
+                            disaster={disaster}
+                            isMain={index === 0 ? true : false}
+                        />
                     </Col>
                 </Row>
             ))}

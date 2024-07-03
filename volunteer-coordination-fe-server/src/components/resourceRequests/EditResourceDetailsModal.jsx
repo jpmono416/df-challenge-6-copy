@@ -73,7 +73,7 @@ const EditResourceDetailsModal = ({
                 />
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={handleSave}>
+                <Button className="secondaryButton" onClick={handleSave}>
                     Update
                 </Button>
                 {/* Delete a resource request from the Database */}

@@ -4,6 +4,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import CustomCard from "../shared/CustomCard.jsx";
 import DisasterService from "../../service/Disaster.service";
 import MainText from "./MainText.jsx";
+import PageTitle from "../shared/PageTitle";
 
 const MainSection = () => {
     const navigate = useNavigate();
@@ -25,14 +26,15 @@ const MainSection = () => {
             <Container className="mt-4">
                 <Row className="justify-content-center mt-4">
                     <Col md={6}>
-                        <CustomCard>
+                        <PageTitle title="Volunteering, but easy." />
+                        <CustomCard className={"mainCard"}>
                             <MainText disasterCount={disasterCount} />
                             <div
                                 className="d-flex justify-content-center"
                                 style={{ marginTop: "25px" }}
                             >
                                 <Button
-                                    variant="success"
+                                    className="primaryButton"
                                     size="lg"
                                     onClick={() => navigate("/disasters")}
                                 >
@@ -42,7 +44,7 @@ const MainSection = () => {
                         </CustomCard>
 
                         <div style={{ width: "50%", margin: "30px auto" }}>
-                            <CustomCard>
+                            <CustomCard className={"customCard"}>
                                 <h5 className="text-center mt-3">
                                     Is your community in need of help? <br />
                                 </h5>
@@ -51,7 +53,7 @@ const MainSection = () => {
                                     style={{ marginTop: "25px" }}
                                 >
                                     <Button
-                                        variant="primary"
+                                        className="secondaryButton"
                                         size="lg"
                                         onClick={() => navigate("/disasters/create")}
                                     >

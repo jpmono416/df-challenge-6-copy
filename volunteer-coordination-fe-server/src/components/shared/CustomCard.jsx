@@ -1,16 +1,9 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 
-const CustomCard = ({ children }) => {
-    const customStyle = {
-        borderRadius: "2rem",
-        borderTopLeftRadius: "0rem",
-        borderBottomRightRadius: "0rem",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    };
-
+const CustomCard = ({ children, className }) => {
     return (
-        <Card style={customStyle}>
+        <Card className={className}>
             <Card.Body>{children}</Card.Body>
         </Card>
     );

@@ -10,6 +10,7 @@ import DisasterService from "../../service/Disaster.service.js";
 import { AuthContext } from "../../auth/AuthProvider";
 import ResourceList from "../resourceRequests/ResourceList";
 import CustomTitle from "../shared/CustomTitle";
+import PageTitle from "../shared/PageTitle.jsx";
 
 const CreateDisasterCard = () => {
     const [location, setLocation] = useState("");
@@ -53,8 +54,8 @@ const CreateDisasterCard = () => {
 
     return (
         <CustomContainer>
-            <CustomCard>
-                <CustomTitle>Report a disaster</CustomTitle>
+            <PageTitle title="Report a natural disaster" />
+            <CustomCard className={"mainCard"}>
                 <Form onSubmit={handleCreateDisaster}>
                     {/* Disaster details */}
                     <Form.Group controlId="formLocation">
@@ -114,7 +115,7 @@ const CreateDisasterCard = () => {
                                 </Tooltip>
                             }
                         >
-                            <Button variant="primary" type="submit">
+                            <Button className="secondaryButton" variant="primary" type="submit">
                                 Report natural disaster
                             </Button>
                         </OverlayTrigger>

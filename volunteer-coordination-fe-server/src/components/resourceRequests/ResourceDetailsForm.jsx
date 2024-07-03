@@ -21,7 +21,7 @@ const ResourceDetailsForm = ({
     return (
         <Form>
             <Form.Group controlId="resourceType">
-                <Form.Label>Type</Form.Label>
+                <Form.Label>Type of resource needed</Form.Label>
 
                 <DropdownButton
                     id="dropdown-resource-type"

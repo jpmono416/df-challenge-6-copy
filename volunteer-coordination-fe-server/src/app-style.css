@@ -1,0 +1,38 @@
+.primaryButton {
+    background-color: #d97706;
+}
+
+.primaryButton:hover {
+    background-color: #FB923C;
+}
+
+.secondaryButton {
+    background-color: #7E22CE;
+}
+
+.secondaryButton:hover {
+    background-color: #A855F7;
+}
+
+.customCard {
+    border-radius: 2rem;
+    border-top-left-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.4);
+}
+
+.titleCard {
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #1E293B;
+    color: white;
+}
+
+.mainCard {
+    border-radius: 2rem;
+    border-top-right-radius: 0rem;
+    border-top-left-radius: 0rem;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.4);
+}

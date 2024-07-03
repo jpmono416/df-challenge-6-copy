@@ -10,7 +10,6 @@ import DisasterList from "./components/disasters/DisasterList";
 import InternalError from "./components/shared/InternalError";
 import CreateDisasterCard from "./components/disasters/CreateDisasterCard";
 import ProfileCard from "./components/profile/ProfileCard";
-
 import { AuthContext } from "./auth/AuthProvider";
 
 const App = () => {
@@ -28,7 +27,16 @@ const App = () => {
 
     return (
         <BrowserRouter>
-            <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    minHeight: "100vh",
+                    backgroundImage: "url('../assets/beehive-background.png')",
+                    backgroundSize: "fill",
+                    backgroundPosition: "center",
+                }}
+            >
                 <AppNavbar />
                 <div style={{ flex: 1, overflowY: "auto", overflowX: "hidden" }}>
                     <Routes>

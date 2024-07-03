@@ -79,7 +79,7 @@ const LoginCard = () => {
 
     return (
         <CustomContainer>
-            <CustomCard>
+            <CustomCard className={"customCard"}>
                 <CustomTitle>{isRegister ? "Register" : "Login"}</CustomTitle>
                 {validationMessage && <Alert variant="danger">{validationMessage}</Alert>}
                 <Form onSubmit={handleSubmit}>
@@ -122,7 +122,7 @@ const LoginCard = () => {
                         />
                     )}
 
-                    <Button variant="primary" type="submit" style={{ marginTop: "10px" }}>
+                    <Button className="secondaryButton" type="submit" style={{ marginTop: "10px" }}>
                         {isRegister ? "Register" : "Login"}
                     </Button>
                     <Button

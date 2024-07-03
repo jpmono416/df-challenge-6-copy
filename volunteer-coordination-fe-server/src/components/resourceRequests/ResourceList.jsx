@@ -61,7 +61,11 @@ const ResourceList = ({ resourceRequests, onResourcesUpdate, handleAddResource }
                 )}
             </ListGroup>
 
-            <Button variant="success" className="mb-3" onClick={handleShowCreateModal}>
+            <Button
+                variant="success"
+                className="primaryButton mb-3 mt-2"
+                onClick={handleShowCreateModal}
+            >
                 Add
             </Button>
             <CreateResourceModal
