@@ -18,7 +18,7 @@ const AppNavbar = () => {
             <Navbar.Brand className="text-white px-1">
                 <Nav.Link as={Link} to="/">
                     <img
-                        src="../../../assets/logo.png" // Replace with the actual path to your image
+                        src="/images/logo.png" // Replace with the actual path to your image
                         alt="Logo"
                         style={{ maxHeight: "60px" }}
                     />

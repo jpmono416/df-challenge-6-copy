@@ -7,7 +7,7 @@ import CustomContainer from "../shared/CustomContainer";
 import CustomHeader from "../shared/CustomHeader";
 import DisasterService from "../../service/Disaster.service.js";
 import ResourcesRow from "../resourceRequests/ResourcesRow.jsx";
-import CustomTitle from "../shared/CustomTitle.jsx";
+import PageTitle from "../shared/PageTitle.jsx";
 import UserService from "../../service/User.service.js";
 import TrackDisasterButton from "./TrackDisasterButton.jsx";
 import UntrackDisasterButton from "./UntrackDisasterButton.jsx";
@@ -140,10 +140,9 @@ const DisasterDetails = () => {
         />
     ) : (
         <CustomContainer>
-            <CustomCard>
-                <CustomTitle>Disaster details</CustomTitle>
+            <PageTitle title="Disaster details" />
+            <CustomCard className="mainCard">
                 <CustomHeader>Status: {disaster.status} </CustomHeader>
-
                 <CustomHeader>Location: {disaster.location} </CustomHeader>
                 <CustomHeader>Description: {disaster.description} </CustomHeader>
                 <CustomHeader>Affected people: {disaster.estimationPeopleAffected} </CustomHeader>

@@ -32,7 +32,7 @@ const App = () => {
                     display: "flex",
                     flexDirection: "column",
                     minHeight: "100vh",
-                    backgroundImage: "url('../assets/beehive-background.png')",
+                    backgroundImage: "url('/images/beehive-background.png')",
                     backgroundSize: "fill",
                     backgroundPosition: "center",
                 }}
