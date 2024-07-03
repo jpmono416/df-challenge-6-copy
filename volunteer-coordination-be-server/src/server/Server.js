@@ -12,13 +12,13 @@ export default class Server {
     #server;
     #userRouter;
     #disasterRouter;
-    #resourcesRouter
+    #resourcesRouter;
 
     constructor(port, host, clientUrl) {
         this.#app = express();
         this.#port = port;
         this.#host = host;
-        this.#clientUrl = clientUrl || "*"; // Default to all origins - can be deleted when final version in production
+        // this.#clientUrl = clientUrl || "*"; // Default to all origins - can be deleted when final version in production
         this.#server = null;
         this.#userRouter = new UserRoutes();
         this.#disasterRouter = new DisasterRoutes();
@@ -32,13 +32,13 @@ export default class Server {
     start = () => {
         // Cors options
         const corsOptions = {
-            origin: this.#clientUrl,
+            origin: "*",
         };
 
         // Start listening
         this.#server = this.#app.listen(this.#port, this.#host, () => {
             console.log(`Server is listening on http://${this.#host}:${this.#port}`);
-            console.log(`Cors options: ${(corsOptions.origin)}`)
+            console.log(`Cors options: ${corsOptions.origin}`);
         });
 
         this.#app.use(express.json());
@@ -47,7 +47,10 @@ export default class Server {
         // Routers
         this.#app.use(this.#userRouter.getRouteStartPoint(), this.#userRouter.getRouter());
         this.#app.use(this.#disasterRouter.getRouteStartPoint(), this.#disasterRouter.getRouter());
-        this.#app.use(this.#resourcesRouter.getRouteStartPoint(), this.#resourcesRouter.getRouter());
+        this.#app.use(
+            this.#resourcesRouter.getRouteStartPoint(),
+            this.#resourcesRouter.getRouter()
+        );
     };
 
     close = () => {
