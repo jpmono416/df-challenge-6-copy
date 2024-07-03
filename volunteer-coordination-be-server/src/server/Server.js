@@ -18,7 +18,7 @@ export default class Server {
         this.#app = express();
         this.#port = port;
         this.#host = host;
-        this.#clientUrl = clientUrl;
+        this.#clientUrl = clientUrl || "*"; // Default to all origins - can be deleted when final version in production
         this.#server = null;
         this.#userRouter = new UserRoutes();
         this.#disasterRouter = new DisasterRoutes();
@@ -38,6 +38,7 @@ export default class Server {
         // Start listening
         this.#server = this.#app.listen(this.#port, this.#host, () => {
             console.log(`Server is listening on http://${this.#host}:${this.#port}`);
+            console.log(`Cors options: ${(corsOptions.origin)}`)
         });
 
         this.#app.use(express.json());
