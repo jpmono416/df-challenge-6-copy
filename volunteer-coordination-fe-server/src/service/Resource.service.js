@@ -4,7 +4,7 @@ import Config from "../config/Config.js";
 class ResourceService {
     static deleteResourceRequest = async (resourceId, token) => {
         try {
-            const response = await axios.delete(`${Config.backendUrl()}/resources`, {
+            const response = await axios.delete(`${Config.backendUrl()}resources`, {
                 data: { id: resourceId },
                 headers: { Authorization: `Bearer ${token}` },
             });

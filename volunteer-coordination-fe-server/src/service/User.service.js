@@ -9,7 +9,7 @@ export default class UserService {
 
     static getUserById = async (userId) => {
         try {
-            const response = await axios.get(`${Config.backendUrl()}/user/id/${userId}`);
+            const response = await axios.get(`${Config.backendUrl()}user/id/${userId}`);
             return response.data;
         } catch (error) {
             return UserService.defaultError;
@@ -18,7 +18,7 @@ export default class UserService {
 
     static registerUser = async (userData) => {
         try {
-            const response = await axios.post(`${Config.backendUrl()}/user/register`, userData);
+            const response = await axios.post(`${Config.backendUrl()}user/register`, userData);
             return response.data; // new user object and JWT token
         } catch (error) {
             if (
@@ -35,7 +35,7 @@ export default class UserService {
 
     static loginUser = async (credentials) => {
         try {
-            const response = await axios.post(`${Config.backendUrl()}/user/login`, credentials);
+            const response = await axios.post(`${Config.backendUrl()}user/login`, credentials);
             return response.data;
         } catch (error) {
             return UserService.defaultError;
