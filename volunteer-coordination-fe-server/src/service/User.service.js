@@ -59,7 +59,7 @@ export default class UserService {
             return {
                 isValid: false,
                 message:
-                    "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, and a special character.",
+                    "Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.",
             };
         }
 

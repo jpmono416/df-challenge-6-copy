@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import CustomCard from "../shared/CustomCard.jsx";
 import DisasterService from "../../service/Disaster.service";
 import MainText from "./MainText.jsx";
 import PageTitle from "../shared/PageTitle";
+import { AuthContext } from "../../auth/AuthProvider";
 
 const MainSection = () => {
     const navigate = useNavigate();
     const [disasterCount, setDisasterCount] = useState(0);
-
+    const { authToken } = useContext(AuthContext);
     useEffect(() => {
         document.title = "HelpHive - Home";
         const fetchDisasterCount = async () => {
@@ -55,7 +56,12 @@ const MainSection = () => {
                                     <Button
                                         className="secondaryButton"
                                         size="lg"
-                                        onClick={() => navigate("/disasters/create")}
+                                        onClick={() => {
+                                            // Check if authToken is present, if not navigate to /login
+                                            authToken
+                                                ? navigate("/disasters/create")
+                                                : navigate("/login");
+                                        }}
                                     >
                                         Ask for it!
                                     </Button>

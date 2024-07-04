@@ -2,10 +2,6 @@ import axios from "axios";
 import Config from "../config/Config.js";
 
 export default class DisasterService {
-
-    static trimTrailingSlash = (url) => {
-        return url.endsWith("/") ? url.slice(0, -1) : url;
-    };
     static getAllActiveDisasters = async () => {
         try {
             const response = await axios.get(`${Config.backendUrl()}disasters`);
@@ -68,8 +64,6 @@ export default class DisasterService {
 
     static updateDisasterDetails = async (disasterData, token) => {
         try {
-            console.log("Disaster data: ", disasterData);
-            
             // Add createdBy
             disasterData.resourceRequests = disasterData.resourceRequests.map((request) => ({
                 ...request,

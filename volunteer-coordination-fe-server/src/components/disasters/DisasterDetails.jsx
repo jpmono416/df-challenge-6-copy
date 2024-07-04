@@ -51,12 +51,14 @@ const DisasterDetails = () => {
     }, [id]);
 
     useEffect(() => {
-        if (disaster) {
+        if (disaster && userDetails.trackedDisasters) {
             const trackingStatus = userDetails.trackedDisasters.some(
                 (trackedDisaster) => trackedDisaster._id === disaster._id
             );
             setIsTrackingDisaster(trackingStatus);
+            return;
         }
+        setIsTrackingDisaster(false);
     }, [disaster, userDetails.trackedDisasters]);
 
     const handleTrackDisaster = async () => {
@@ -163,10 +165,15 @@ const DisasterDetails = () => {
                     )}
                 </div>
 
-                {isTrackingDisaster ? (
-                    <UntrackDisasterButton onClick={handleUntrackDisaster} />
+                {console.log(userDetails)}
+                {userDetails?.trackedDisaster && isTrackingDisaster ? (
+                    <UntrackDisasterButton
+                        onClick={() => (authToken ? handleUntrackDisaster() : navigate("/login"))}
+                    />
                 ) : (
-                    <TrackDisasterButton onClick={handleTrackDisaster} />
+                    <TrackDisasterButton
+                        onClick={() => (authToken ? handleTrackDisaster() : navigate("/login"))}
+                    />
                 )}
             </CustomCard>
         </CustomContainer>
