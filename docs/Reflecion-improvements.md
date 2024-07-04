@@ -1,0 +1,19 @@
+# Reflection on the sprint: Learning, Achievements, Challenges and future directions
+
+Over the past couple of weeks, working on this project has been an immense opportunity for learning and growth. The journey through the development process, from initial conception to the final stages, has been both challenging and rewarding. Reflecting on this period, it's clear that the experience has significantly contributed to my professional and personal development.
+
+One of the most valuable insights from this experience is the realization of the importance of adaptability and continuous learning. The project presented numerous challenges, each requiring a unique approach and solution. Tackling these obstacles head-on has not only improved my problem-solving skills but also expanded my technical knowledge and expertise. It's fascinating to see how much one can learn when pushed out of their comfort zone.
+
+However, with the benefit of hindsight, there are several aspects of the project I would approach differently if given the chance to start over or continue working on it. The most notable area for improvement is the integration of testing from the early stages of development. The project currently lacks comprehensive frontend tests, a shortfall that can be attributed to a misjudgment in prioritizing tasks. Initially, my focus was on developing features and ensuring the application's functionality, with the intention to circle back to testing. This approach, unfortunately, led to a scarcity of time, preventing the establishment of a robust testing framework.
+
+The absence of frontend tests is a point of disappointment for me where I failed I hugely underperformed compared even to my own expectations. While empirical testing has been conducted to ensure the application's usability and functionality, the lack of formalized testing means that the coverage is not nearly as extensive as it should be on the frontend. Recognizing the critical role that testing plays in software development, especially in identifying and addressing potential issues early on, it's clear that this was a case of poor prioritization and there's a lesson for me to be learned on this.
+
+Looking forward, I am eager to rectify this. My goal is to achieve a minimum of 80% coverage across both the frontend and backend. This will not only enhance the application's reliability but also provide a more solid foundation for future development and maintenance. Achieving this level of coverage will require a dedicated effort to integrate testing into the development workflow, ensuring that it is given the priority it deserves.
+
+Other areas of improvement that I can do with more time include:
+- Creating validation middleware for disasters and resource requests to further ensure data integrity.
+- Adding more useful error messages on the frontend when something goes wrong in the backend.
+- Implementing a more robust error handling mechanism to provide better feedback to users when errors occur instead of a generalized error message.
+- Further refactoring of React components to improve readability and maintainability.
+
+In conclusion, this project has been a profound learning experience and by far my most effective piece of work to date when looking at the work delivered in the time provided. It has highlighted the importance of prioritization, adaptability, continuous learning, and the critical role of testing in software development. While there are aspects of the project that I wish had been handled differently, the knowledge and insights gained from these experiences are invaluable. Moving forward, I am confident that with the lessons learned and a focused approach to testing, the estimation of sprint work can be better adjusted and the application can be developed to meet and exceed the desired standards of quality and reliability.
