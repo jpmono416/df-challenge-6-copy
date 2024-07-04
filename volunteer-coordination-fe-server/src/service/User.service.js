@@ -70,7 +70,7 @@ export default class UserService {
     static trackDisaster = async (disasterId, userId, token) => {
         try {
             const response = await axios.put(
-                `${Config.backendUrl()}/user/track`,
+                `${Config.backendUrl()}user/track`,
                 { userId: userId, disasterId: disasterId },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -83,7 +83,7 @@ export default class UserService {
     static untrackDisaster = async (disasterId, userId, token) => {
         try {
             const response = await axios.put(
-                `${Config.backendUrl()}/user/untrack`,
+                `${Config.backendUrl()}user/untrack`,
                 { userId: userId, disasterId: disasterId },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
