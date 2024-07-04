@@ -27,7 +27,11 @@ describe("User Service", () => {
         describe("Login user", () => {
             it("should login a user", async () => {
                 const userMock = testUsers.users[1];
-                const findOneStub = sinon.stub(User, "findOne").resolves(userMock);
+                const findOneStub = sinon.stub(User, "findOne").returns({
+                    populate: sinon.stub().returns({
+                        exec: sinon.stub().resolves(userMock),
+                    }),
+                });
                 const jwtStub = sinon.stub(jwt, "sign").returns("token");
 
                 const { user, token } = await UserService.loginUser(
@@ -43,7 +47,11 @@ describe("User Service", () => {
 
             // TODO is this what is actually being returned by the service?
             it("should return nothing if no user is found", async () => {
-                const findOneStub = sinon.stub(User, "findOne").resolves(null);
+                const findOneStub = sinon.stub(User, "findOne").returns({
+                    populate: sinon.stub().returns({
+                        exec: sinon.stub().resolves(null),
+                    }),
+                });
                 const result = await UserService.loginUser("test", "test");
                 expect(result).to.be.undefined;
                 findOneStub.restore();
@@ -59,7 +67,11 @@ describe("User Service", () => {
                 const newUser = userMock;
                 newUser.password = "newPassword";
 
-                const findOneStub = sinon.stub(User, "findOne").resolves(userMock);
+                const findOneStub = sinon.stub(User, "findOne").returns({
+                    populate: sinon.stub().returns({
+                        exec: sinon.stub().resolves(userMock),
+                    }),
+                });
                 const saveStub = sinon.stub(User.prototype, "save").returns(testUsers[0]);
 
                 const result = await UserService.changePassword(
@@ -73,7 +85,11 @@ describe("User Service", () => {
             });
 
             it("should return nothing if no user is found", async () => {
-                const findOneStub = sinon.stub(User, "findOne").returns(null);
+                const findOneStub = sinon.stub(User, "findOne").returns({
+                    populate: sinon.stub().returns({
+                        exec: sinon.stub().resolves(null),
+                    }),
+                });
                 const result = await UserService.changePassword("test", "test", "newPassword");
                 expect(result).to.be.undefined;
                 findOneStub.restore();
@@ -83,8 +99,11 @@ describe("User Service", () => {
 
     describe("getUserByEmail", () => {
         it("should get a user by email", async () => {
-            const findOneStub = sinon.stub(User, "findOne").resolves(testUsers.users[1]);
-
+            const findOneStub = sinon.stub(User, "findOne").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().resolves(testUsers.users[1]),
+                }),
+            });
             const result = await UserService.getUserByEmail(testUsers.users[1].email);
 
             expect(result).to.equal(testUsers.users[1]);
@@ -93,8 +112,11 @@ describe("User Service", () => {
 
         // TODO for the end: Can this be improved?
         it("should return nothing if no user is found", async () => {
-            const findOneStub = sinon.stub(User, "findOne").resolves(null);
-
+            const findOneStub = sinon.stub(User, "findOne").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().resolves(null),
+                }),
+            });
             const result = await UserService.getUserByEmail("test");
 
             expect(result).to.be.null;
@@ -102,9 +124,11 @@ describe("User Service", () => {
         });
 
         it("should throw an error if an error occurs", async () => {
-            const findOneStub = sinon
-                .stub(User, "findOne")
-                .rejects(new Error("Failed to find user"));
+            const findOneStub = sinon.stub(User, "findOne").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().rejects(new Error("Failed to find user")),
+                }),
+            });
 
             await expect(UserService.getUserByEmail("test")).to.be.rejectedWith(
                 "Invalid user: Failed to find user"
@@ -114,8 +138,11 @@ describe("User Service", () => {
         });
 
         it("should use the correct query", async () => {
-            const findOneStub = sinon.stub(User, "findOne").resolves(testUsers.users[1]);
-
+            const findOneStub = sinon.stub(User, "findOne").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().resolves(testUsers.users[1]),
+                }),
+            });
             await UserService.getUserByEmail(testUsers.users[1].email);
 
             expect(findOneStub.calledWith({ email: testUsers.users[1].email })).to.be.true;
@@ -135,7 +162,11 @@ describe("User Service", () => {
         });
 
         it("should add a role to the user", async () => {
-            const findOneStub = sinon.stub(User, "findOne").resolves(userMock);
+            const findOneStub = sinon.stub(User, "findOne").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().resolves(userMock),
+                }),
+            });
             const roleToAdd = "admin";
 
             await UserService.addRole(userMock.email, roleToAdd);
@@ -146,7 +177,11 @@ describe("User Service", () => {
         });
 
         it("should return the user with the new role", async () => {
-            const findOneStub = sinon.stub(User, "findOne").resolves(userMock);
+            const findOneStub = sinon.stub(User, "findOne").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().resolves(userMock),
+                }),
+            });
             const roleToAdd = "editor";
 
             const updatedUser = await UserService.addRole(userMock.email, roleToAdd);
@@ -157,8 +192,11 @@ describe("User Service", () => {
         });
 
         it("should return undefined if the user does not exist", async () => {
-            const findOneStub = sinon.stub(User, "findOne").resolves(null);
-
+            const findOneStub = sinon.stub(User, "findOne").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().resolves(null),
+                }),
+            });
             const result = await UserService.addRole("nonexistent@example.com", "admin");
 
             expect(result).to.be.undefined;
@@ -166,7 +204,11 @@ describe("User Service", () => {
         });
 
         it("should throw an error if saving the user fails", async () => {
-            const findOneStub = sinon.stub(User, "findOne").resolves(userMock);
+            const findOneStub = sinon.stub(User, "findOne").returns({
+                populate: sinon.stub().returns({
+                    exec: sinon.stub().resolves(userMock),
+                }),
+            });
             userMock.save = sinon.stub().rejects(new Error("Failed to save"));
 
             await expect(UserService.addRole(userMock.email, "admin")).to.be.rejectedWith(
