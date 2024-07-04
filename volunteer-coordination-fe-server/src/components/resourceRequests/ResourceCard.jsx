@@ -5,6 +5,8 @@ const ResourceCard = ({ resource, onClick }) => {
     const individualClassName = `fillCircle${resource._id}`;
 
     const getFillColour = () => {
+        if (resource.status === "Goal reached") return "#94A3B8";
+
         switch (resource.urgencyLevel) {
             case "Low":
                 return "#28a745";

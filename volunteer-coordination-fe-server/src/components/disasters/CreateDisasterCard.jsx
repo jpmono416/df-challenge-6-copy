@@ -56,11 +56,13 @@ const CreateDisasterCard = () => {
         <CustomContainer>
             <PageTitle title="Report a natural disaster" />
             <CustomCard className={"mainCard"}>
+                {/* This form can be abstracted into its own reusable component with the EditDisasterCard */}
                 <Form onSubmit={handleCreateDisaster}>
                     {/* Disaster details */}
                     <Form.Group controlId="formLocation">
                         <Form.Label>Location</Form.Label>
                         <Form.Control
+                            required
                             type="text"
                             placeholder="Enter location"
                             value={location}
@@ -70,6 +72,7 @@ const CreateDisasterCard = () => {
                     <Form.Group controlId="formDescription">
                         <Form.Label>Description</Form.Label>
                         <Form.Control
+                            required
                             type="text"
                             placeholder="Enter description"
                             value={description}
@@ -79,7 +82,9 @@ const CreateDisasterCard = () => {
                     <Form.Group controlId="formAffectedPeople">
                         <Form.Label>Affected people</Form.Label>
                         <Form.Control
-                            type="text"
+                            required
+                            type="number"
+                            min="1"
                             placeholder="Enter estimation of affected people"
                             value={estimationPeopleAffected}
                             onChange={(e) => setEstimationPeopleAffected(e.target.value)}
@@ -115,7 +120,16 @@ const CreateDisasterCard = () => {
                                 </Tooltip>
                             }
                         >
-                            <Button className="secondaryButton" variant="primary" type="submit">
+                            <Button
+                                disabled={
+                                    !description.trim() ||
+                                    !location.trim() ||
+                                    !estimationPeopleAffected
+                                }
+                                className="secondaryButton"
+                                variant="primary"
+                                type="submit"
+                            >
                                 Report natural disaster
                             </Button>
                         </OverlayTrigger>

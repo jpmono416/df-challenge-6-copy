@@ -165,8 +165,7 @@ const DisasterDetails = () => {
                     )}
                 </div>
 
-                {console.log(userDetails)}
-                {userDetails?.trackedDisaster && isTrackingDisaster ? (
+                {isTrackingDisaster ? (
                     <UntrackDisasterButton
                         onClick={() => (authToken ? handleUntrackDisaster() : navigate("/login"))}
                     />

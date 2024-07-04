@@ -31,7 +31,7 @@ const EditDisasterCard = ({
             <PageTitle title="Edit disaster details" />
             <CustomCard className="mainCard">
                 <Form onSubmit={handleSave}>
-                    <Form.Group controlId="formLocation">
+                    <Form.Group required controlId="formLocation">
                         <Form.Label>Location</Form.Label>
                         <Form.Control
                             disabled={true}
@@ -40,7 +40,7 @@ const EditDisasterCard = ({
                             onChange={(e) => setLocation(e.target.value)}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formDescription">
+                    <Form.Group required controlId="formDescription">
                         <Form.Label>Description</Form.Label>
                         <Form.Control
                             type="text"
@@ -48,10 +48,11 @@ const EditDisasterCard = ({
                             onChange={(e) => setDescription(e.target.value)}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formAffectedPeople">
+                    <Form.Group required controlId="formAffectedPeople">
                         <Form.Label>Affected People</Form.Label>
                         <Form.Control
-                            type="text"
+                            type="number"
+                            min="1"
                             value={estimationPeopleAffected}
                             onChange={(e) => setEstimationPeopleAffected(e.target.value)}
                         />
@@ -77,6 +78,9 @@ const EditDisasterCard = ({
                     />
                     <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "1rem" }}>
                         <Button
+                            disabled={
+                                !description.trim() || !location.trim() || !estimationPeopleAffected
+                            }
                             style={{
                                 display: "flex",
                                 justifyContent: "flex-end",

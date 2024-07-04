@@ -14,12 +14,9 @@ const DisasterList = () => {
         document.title = "Active Disasters";
         const fetchDisasters = async () => {
             const result = await DisasterService.getAllActiveDisasters();
-            console.log(result);
             if (!result?.failed) {
-                console.log("Coming in: ", result);
                 setDisasters(result);
             } else {
-                console.log("Navigating");
                 navigate("/error");
             }
         };

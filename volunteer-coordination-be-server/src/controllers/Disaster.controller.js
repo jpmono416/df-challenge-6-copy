@@ -69,9 +69,6 @@ export default class DisasterController {
             const updates = resourceRequests.filter((request) => request._id);
             const creations = resourceRequests.filter((request) => !request._id);
 
-            console.log("Updates:", updates);
-            console.log("Creations:", creations);
-
             // Process updates
             const updatePromises = updates.map((request) => {
                 return ResourceRequestService.updateResourceRequest(request);
@@ -86,13 +83,10 @@ export default class DisasterController {
             const updatedRequests = await Promise.all(updatePromises);
             const createdRequests = await Promise.all(createPromises);
 
-            console.log("Promises:", updatedRequests, createdRequests);
-
             // Combine IDs from updated and created requests
             disasterData.resourceRequests = [...updatedRequests, ...createdRequests].map(
                 (req) => req._id
             );
-            console.log("Reqs:", disasterData.resourceRequests);
 
             const updatedDisaster = await DisasterService.updateDisasterDetails(disasterData);
             if (!updatedDisaster) return res.status(404).json({ error: "Disaster not found" });
@@ -103,7 +97,6 @@ export default class DisasterController {
             );
             res.status(200).json(disasterWithResourceReqData);
         } catch (error) {
-            console.log(error);
             res.status(500).json({ error: error.message });
         }
     };

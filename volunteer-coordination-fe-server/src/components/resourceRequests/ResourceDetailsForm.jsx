@@ -18,6 +18,18 @@ const ResourceDetailsForm = ({
     setStatus,
     isEditing,
 }) => {
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+    const handleQuantityNeededChange = (e) => {
+        const clampedValue = clamp(e.target.value, 1, 1000); // Clamp value between 1 and 1000
+        setQuantityNeeded(clampedValue); // Update state with clamped value
+    };
+
+    const handleQuantityFulfilledChange = (e) => {
+        const clampedValue = clamp(e.target.value, 0, quantityNeeded); // Clamp value between 0 and quantityNeeded
+        setQuantityFulfilled(clampedValue); // Update state with clamped value
+    };
+    
     return (
         <Form>
             <Form.Group controlId="resourceType">
@@ -63,6 +75,7 @@ const ResourceDetailsForm = ({
             <Form.Group controlId="resourceDescription">
                 <Form.Label>Description</Form.Label>
                 <Form.Control
+                    required
                     type="text"
                     placeholder="Enter description"
                     value={description}
@@ -72,19 +85,25 @@ const ResourceDetailsForm = ({
             <Form.Group controlId="resourceAmountNeeded">
                 <Form.Label>Amount Needed</Form.Label>
                 <Form.Control
-                    type="text"
+                    required
+                    type="number"
+                    min="1"
+                    max="1000"
                     placeholder="Enter amount needed"
                     value={quantityNeeded}
-                    onChange={(e) => setQuantityNeeded(e.target.value)}
+                    onChange={handleQuantityNeededChange}
                 />
             </Form.Group>
             <Form.Group controlId="resourceAmountFulfilled">
                 <Form.Label>Amount Fulfilled</Form.Label>
                 <Form.Control
-                    type="text"
+                    required
+                    type="number"
+                    min="0"
+                    max={quantityNeeded}
                     placeholder="Enter amount fulfilled"
                     value={quantityFulfilled}
-                    onChange={(e) => setQuantityFulfilled(e.target.value)}
+                    onChange={handleQuantityFulfilledChange}
                 />
             </Form.Group>
             <Form.Group controlId="resourceUrgency">

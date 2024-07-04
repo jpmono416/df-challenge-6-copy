@@ -31,7 +31,6 @@ export default class ResourceRequestService {
     static updateResourceRequest = async (requestData) => {
         try {
             const { _id, ...updateData } = requestData;
-            console.log("Data: ", requestData, requestData);
             const updatedRequest = await ResourceRequest.findByIdAndUpdate(_id, updateData, {
                 new: true,
             });

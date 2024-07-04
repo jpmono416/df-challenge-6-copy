@@ -55,7 +55,11 @@ const CreateResourceModal = ({ show, handleClose, addResource }) => {
                 />
             </Modal.Body>
             <Modal.Footer>
-                <Button className="secondaryButton" onClick={handleSubmit}>
+                <Button
+                    disabled={!description.trim() || !requestedResourceType || !quantityNeeded}
+                    className="secondaryButton"
+                    onClick={handleSubmit}
+                >
                     Create
                 </Button>
             </Modal.Footer>

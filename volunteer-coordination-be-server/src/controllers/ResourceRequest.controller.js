@@ -35,7 +35,6 @@ export default class ResourceRequestController {
 
     static deleteResourceRequest = async (req, res) => {
         try {
-            console.log(req.body);
             if (!req.body || !req.body.id)
                 return res.status(400).json({ error: "Invalid resource request ID" });
 
